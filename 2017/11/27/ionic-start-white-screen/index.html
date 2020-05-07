@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66539672"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?71d34fe208bc96e33a9d60adabaf9dcb"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Site Verification-->
+<meta name="baidu-site-verification" content="PAq6P6Yule">
+<!-- End Baidu Site Verification-->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="https://xyue.me/2017/11/27/ionic-start-white-screen/">
+    
+    
+    <title>ionic3 启动白屏解决 | XYue&#39;s Notes | Keep Going</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="ionic">
+    <meta name="description" content="问题描述APP 启动后，会有一段时间的白屏，影响体验 解决第一步向 config.xml 配置文件中添加以下内容 1234&amp;lt;preference name=&quot;AutoHideSpl">
+<meta name="keywords" content="ionic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ionic3 启动白屏解决">
+<meta property="og:url" content="http://xyue.me/2017/11/27/ionic-start-white-screen/index.html">
+<meta property="og:site_name" content="XYue&#39;s Notes">
+<meta property="og:description" content="问题描述APP 启动后，会有一段时间的白屏，影响体验 解决第一步向 config.xml 配置文件中添加以下内容 1234&amp;lt;preference name=&quot;AutoHideSpl">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://xyue.me/2017/11/27/ionic-start-white-screen/header-img.png">
+<meta property="og:updated_time" content="2020-01-20T03:49:52.115Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ionic3 启动白屏解决">
+<meta name="twitter:description" content="问题描述APP 启动后，会有一段时间的白屏，影响体验 解决第一步向 config.xml 配置文件中添加以下内容 1234&amp;lt;preference name=&quot;AutoHideSpl">
+<meta name="twitter:image" content="http://xyue.me/2017/11/27/ionic-start-white-screen/header-img.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="XYue&#39;s Notes" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">歆月</h5>
+          <a href="mailto:fuzy450@foxmail.com" title="fuzy450@foxmail.com" class="mail">fuzy450@foxmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://wpa.qq.com/msgrd?v=3&uin=450805067&site=qq&menu=yes" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/fuzhongyi" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://leetcode.xyue.me" target="_blank" >
+                <i class="icon icon-lg icon-code"></i>
+                LeetCode
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">ionic3 启动白屏解决</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">ionic3 启动白屏解决</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-11-27T09:25:06.000Z" itemprop="datePublished" class="page-time">
+  2017-11-27
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/问题记录/">问题记录</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#问题描述"><span class="post-toc-number">1.</span> <span class="post-toc-text">问题描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解决"><span class="post-toc-number">2.</span> <span class="post-toc-text">解决</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第一步"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">第一步</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第二步"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">第二步</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-ionic-start-white-screen"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">ionic3 启动白屏解决</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-11-27 17:25:06" datetime="2017-11-27T09:25:06.000Z"  itemprop="datePublished">2017-11-27</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/问题记录/">问题记录</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2017/11/27/ionic-start-white-screen/header-img.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>APP 启动后，会有一段时间的白屏，影响体验</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>向 <code>config.xml</code> 配置文件中添加以下内容</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">preference</span> <span class="attr">name</span>=<span class="string">"AutoHideSplashScreen"</span> <span class="attr">value</span>=<span class="string">"false"</span> /&gt;</span>    <span class="comment">&lt;!-- 禁止自动隐藏 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">preference</span> <span class="attr">name</span>=<span class="string">"ShowSplashScreen"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span>         <span class="comment">&lt;!-- 显示启动画面 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">preference</span> <span class="attr">name</span>=<span class="string">"ShowSplashScreenSpinner"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span>  <span class="comment">&lt;!-- 显示启动加载灰圈 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">preference</span> <span class="attr">name</span>=<span class="string">"FadeSplashScreen"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span>         <span class="comment">&lt;!-- 启动淡出效果 --&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>向 <code>/src/app/main.ts</code> 文件中添加以下内容</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; enableProdMode &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line">enableProdMode();<span class="comment">// 加快启动速度</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p>完成以上步骤重新 build.</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-01-20T03:49:52.115Z" itemprop="dateUpdated">2020-01-20 11:49:52</time>
+</span><br>
+
+
+        
+        <a href="/2017/11/27/ionic-start-white-screen/" target="_blank" rel="external">http://xyue.me/2017/11/27/ionic-start-white-screen/</a>
+        
+    </div>
+    <footer>
+        <a href="http://xyue.me">
+            <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" alt="歆月">
+            歆月
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ionic/">ionic</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2017/11/27/ionic-start-white-screen/&title=《ionic3 启动白屏解决》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2017/11/27/ionic-start-white-screen/&title=《ionic3 启动白屏解决》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2017/11/27/ionic-start-white-screen/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ionic3 启动白屏解决》 — XYue's Notes&url=http://xyue.me/2017/11/27/ionic-start-white-screen/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2017/11/27/ionic-start-white-screen/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/12/06/js-restructure-points/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">js 代码重构细节</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/10/18/search-engine-solr-build/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">全文检索引擎 Solr 搭建</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+<section class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDY2MC83MjE1">
+        <script type="text/javascript">
+            (function(d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        <i class="icon icon-user"></i><span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        <i class="icon icon-eye"></i><span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>歆月 &copy; 2017 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2017/11/27/ionic-start-white-screen/&title=《ionic3 启动白屏解决》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2017/11/27/ionic-start-white-screen/&title=《ionic3 启动白屏解决》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2017/11/27/ionic-start-white-screen/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ionic3 启动白屏解决》 — XYue's Notes&url=http://xyue.me/2017/11/27/ionic-start-white-screen/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2017/11/27/ionic-start-white-screen/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACK0lEQVR42u3a0W7jMAwEwP7/T7uvd2id7FJxAcujJyNxY44LECKpr694HT/W62//vefsk7Prn7//sYWBgXFbxvFyzRg5oH3uKRUDA+MBjLMMdnbPerj5i3gdGwYGBkZ7z6cSNwYGBsYKI39YHjoGBgZGwkgSZZIc841gWwZ/rBbHwMC4ISPvuv/99SXzDQwMjFsxjnIlqXY2mDwWFgYGxt6MPMG9DiXZOOa/OYwHAwNja0YbStsym200hwfFMDAwHsC4ru11xTiz6B1iYGDcnJFv+2YF7aypV7feMDAwNmXMtoPtyHNGTRLxf11DDAyMTRlJassf3x7RWH9ilHwxMDBuzsgPb7VjyxaZF8+/RIiBgfEYRh56e71+2OLNS8HAwNia0e6v2mlDEkQ7KH3zUjAwMLZjJBu7WWJd2UTmBTYGBsYTGOtr/UW0A4ZLeBgYGDdh5A/IZw5tOdo+BQMD4wmM/I/biWjb6G8L4GGvDgMD44aMpKG2Xo62A4ZZsw8DA2NvRltAtpvINsUPky8GBsYDGLPyNT9S9qlNZNH5w8DA2I6RNMXa0GeAYbQYGBibMo5ytdvEPAW3Lbk3/wcMDIyNGO2hilmLvx0trDTmMDAwdmWstMDasnNly1gMLzEwMDZltIkvH23OXtOwFsfAwMCIk2+bXpPPL0m4GBgYmzLWR5VFcHHKxsDAeAIjP1TRDgPagUELw8DAeAIjLx1nxe0s6PUUj4GBsQXjGw6iQc/hSHGKAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了😥!';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '咦!回来啦😋!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

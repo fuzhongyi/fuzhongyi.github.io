@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66539672"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?71d34fe208bc96e33a9d60adabaf9dcb"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Site Verification-->
+<meta name="baidu-site-verification" content="PAq6P6Yule">
+<!-- End Baidu Site Verification-->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="https://xyue.me/2020/03/21/event-loop/">
+    
+    
+    <title>从多线程到 Event Loop | XYue&#39;s Notes | Keep Going</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="javascript">
+    <meta name="description" content="在我们的认知中，javascript 是单线程的，但它又是如何完成诸如异步请求这种多线程操作的呢？我们先从进程、线程的角度来了解这个问题。 进程与线程 进程 是 cpu 资源分配的最小单">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从多线程到 Event Loop">
+<meta property="og:url" content="http://xyue.me/2020/03/21/event-loop/index.html">
+<meta property="og:site_name" content="XYue&#39;s Notes">
+<meta property="og:description" content="在我们的认知中，javascript 是单线程的，但它又是如何完成诸如异步请求这种多线程操作的呢？我们先从进程、线程的角度来了解这个问题。 进程与线程 进程 是 cpu 资源分配的最小单">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://xyue.me/2020/03/21/event-loop/header-img.webp">
+<meta property="og:image" content="http://xyue.me/2020/03/21/event-loop/5-1.png">
+<meta property="og:image" content="http://xyue.me/2020/03/21/event-loop/5-2.webp">
+<meta property="og:image" content="http://xyue.me/2020/03/21/event-loop/6-1.gif">
+<meta property="og:image" content="http://xyue.me/2020/03/21/event-loop/6-2.gif">
+<meta property="og:image" content="http://xyue.me/2020/03/21/event-loop/6-3.gif">
+<meta property="og:image" content="http://xyue.me/2020/03/21/event-loop/7-1.webp">
+<meta property="og:updated_time" content="2020-03-26T17:05:02.601Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从多线程到 Event Loop">
+<meta name="twitter:description" content="在我们的认知中，javascript 是单线程的，但它又是如何完成诸如异步请求这种多线程操作的呢？我们先从进程、线程的角度来了解这个问题。 进程与线程 进程 是 cpu 资源分配的最小单">
+<meta name="twitter:image" content="http://xyue.me/2020/03/21/event-loop/header-img.webp">
+    
+        <link rel="alternate" type="application/atom+xml" title="XYue&#39;s Notes" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">歆月</h5>
+          <a href="mailto:fuzy450@foxmail.com" title="fuzy450@foxmail.com" class="mail">fuzy450@foxmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://wpa.qq.com/msgrd?v=3&uin=450805067&site=qq&menu=yes" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/fuzhongyi" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://leetcode.xyue.me" target="_blank" >
+                <i class="icon icon-lg icon-code"></i>
+                LeetCode
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">从多线程到 Event Loop</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">从多线程到 Event Loop</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-03-21T05:45:07.000Z" itemprop="datePublished" class="page-time">
+  2020-03-21
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术水波文/">技术水波文</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#进程与线程"><span class="post-toc-number">1.</span> <span class="post-toc-text">进程与线程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#浏览器包含了哪些进程"><span class="post-toc-number">2.</span> <span class="post-toc-text">浏览器包含了哪些进程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#渲染进程"><span class="post-toc-number">3.</span> <span class="post-toc-text">渲染进程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为什么是单线程"><span class="post-toc-number">4.</span> <span class="post-toc-text">为什么是单线程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#从-event-loop-看-JS-运行机制"><span class="post-toc-number">5.</span> <span class="post-toc-text">从 event loop 看 JS 运行机制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#宏任务、微任务"><span class="post-toc-number">6.</span> <span class="post-toc-text">宏任务、微任务</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#宏任务"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">宏任务</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#微任务"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">微任务</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">7.</span> <span class="post-toc-text">总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题外话"><span class="post-toc-number">8.</span> <span class="post-toc-text">题外话</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在-chrome-中"><span class="post-toc-number">8.1.</span> <span class="post-toc-text">在 chrome 中</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在-node-中"><span class="post-toc-number">8.2.</span> <span class="post-toc-text">在 node 中</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-event-loop"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">从多线程到 Event Loop</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-03-21 13:45:07" datetime="2020-03-21T05:45:07.000Z"  itemprop="datePublished">2020-03-21</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术水波文/">技术水波文</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/21/event-loop/header-img.webp" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>在我们的认知中，javascript 是单线程的，但它又是如何完成诸如异步请求这种多线程操作的呢？<br>我们先从进程、线程的角度来了解这个问题。</p>
+<h2 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h2><ul>
+<li><code>进程</code> 是 <code>cpu</code> 资源分配的最小单位（是能拥有资源和独立运行的最小单位）</li>
+<li><code>线程</code> 是 <code>cpu</code> 调度的最小单位（线程是建立在进程的基础上的一次程序运行单位，一个进程中可以有多个线程）</li>
+<li>不同进程之间也可以通信，代价较大</li>
+</ul>
+<p>简单理解，我们把 <code>cpu</code> 比作工厂，工厂有多个车间，但工厂的电力有限，每次只能供给一个车间使用（单个 <code>cpu</code> 一次只能运行一个任务）。<code>进程</code> 就好比工厂的车间，它代表 <code>cpu</code> 所能处理的单个任务, 进程之间相互独立，任一时刻，<code>cpu</code> 总是运行一个进程，其他进程处于非运行状态。 <code>cpu</code> 使用时间片轮转进度算法来实现同时运行多个进程。<code>线程</code> 就好比车间里的工人，一个车间里，可以有很多工人，共享车间所有的资源，他们协同完成一个任务。</p>
+<p>一个 <code>进程</code> 可以包括多个 <code>线程</code>，多个 <code>线程</code> 共享 <code>进程</code> 资源。</p>
+<h2 id="浏览器包含了哪些进程"><a href="#浏览器包含了哪些进程" class="headerlink" title="浏览器包含了哪些进程"></a>浏览器包含了哪些进程</h2><ul>
+<li><p>主进程</p>
+<ul>
+<li>协调控制其他子进程（创建、销毁）</li>
+<li>浏览器界面显示，用户交互，前进、后退、收藏</li>
+<li>将渲染进程得到的内存中的 Bitmap，绘制到用户界面上</li>
+<li>处理不可见操作，网络请求，文件访问等</li>
+</ul>
+</li>
+<li><p>第三方插件进程</p>
+<ul>
+<li>每种类型的插件对应一个进程，仅当使用该插件时才创建</li>
+</ul>
+</li>
+<li><p>GPU进程</p>
+<ul>
+<li>用于3D绘制等</li>
+</ul>
+</li>
+<li><p>渲染进程，就是我们说的浏览器内核</p>
+<ul>
+<li>负责页面渲染，脚本执行，事件处理等</li>
+<li>每个tab页一个渲染进程</li>
+</ul>
+</li>
+</ul>
+<p>了解到浏览器所包含的进程，我们可以发现，渲染进程是前端操作最重要的一环。</p>
+<h2 id="渲染进程"><a href="#渲染进程" class="headerlink" title="渲染进程"></a>渲染进程</h2><p>我们知道，进程和线程是一对多的关系，也就是说一个进程包含了多条线程。</p>
+<p>对于 <code>渲染进程</code> 而言，它也是多线程的，包含：</p>
+<ul>
+<li><p>GUI 渲染线程</p>
+<ul>
+<li>负责渲染页面，布局和绘制</li>
+<li>页面需要重绘和回流时，该线程就会执行</li>
+<li>与 JS 引擎线程互斥，防止渲染结果不可预期</li>
+</ul>
+</li>
+<li><p>JS 引擎线程</p>
+<ul>
+<li>负责处理解析和执行 javascript 脚本程序</li>
+<li>只有一个 JS 引擎线程（单线程）</li>
+<li>与 GUI 渲染线程互斥，防止渲染结果不可预期</li>
+</ul>
+</li>
+<li><p>事件触发线程</p>
+<ul>
+<li>用来控制事件循环（鼠标点击、setTimeout、ajax 等）</li>
+<li>当事件满足触发条件时，将事件放入到JS引擎所在的执行队列中</li>
+</ul>
+</li>
+<li><p>定时触发器线程</p>
+<ul>
+<li>setInterval 与 setTimeout 所在的线程</li>
+<li>定时任务并不是由 JS 引擎计时的，是由定时触发线程来计时的</li>
+<li>计时完毕后，通知事件触发线程</li>
+</ul>
+</li>
+<li><p>异步 http 请求线程</p>
+<ul>
+<li>浏览器有一个单独的线程用于处理 ajax 请求</li>
+<li>当请求完成时，若有回调函数，通知事件触发线程</li>
+</ul>
+</li>
+</ul>
+<p>当我们了解了渲染进程包含的线程后，我们思考为什么 javascript 是单线程的。</p>
+<h2 id="为什么是单线程"><a href="#为什么是单线程" class="headerlink" title="为什么是单线程"></a>为什么是单线程</h2><p>因为多线程的复杂性，多线程操作需要加锁，编码的复杂性会增高。如果同时操作 DOM ，在多线程不加锁的情况下，最终会导致 DOM 渲染的结果不可预期。</p>
+<h2 id="从-event-loop-看-JS-运行机制"><a href="#从-event-loop-看-JS-运行机制" class="headerlink" title="从 event loop 看 JS 运行机制"></a>从 event loop 看 JS 运行机制</h2><p>到了这里，终于要进入我们的主题，什么是 <code>event loop</code>。</p>
+<p>先理解一些概念：</p>
+<ul>
+<li>JS 分为同步任务和异步任务</li>
+<li>同步任务都在 JS 引擎线程上执行，形成一个执行栈</li>
+<li>事件触发线程管理一个任务队列，异步任务触发条件达成，将回调事件放到任务队列中</li>
+<li>执行栈中所有同步任务执行完毕，此时 JS 引擎线程空闲，系统会读取任务队列，将可运行的异步任务回调事件添加到执行栈中，开始执行</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/21/event-loop/5-1.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>在前端开发中我们会通过 <code>setTimeout</code>、<code>setInterval</code> 来指定定时任务，通过 <code>xhr</code>、<code>fetch</code> 发送网络请求。</p>
+<p>我们知道，不管是这些定时任务或者网络请求，这些代码在执行，本身是同步任务的，而其中的回调函数才是异步任务。</p>
+<p>当代码执行到 <code>setTimeout</code>、<code>setInterval</code> 时，实际上是 <code>JS引擎线程</code> 通知 <code>定时触发器线程</code>，在间隔指定时间后，会触发一个回调事件， 而 <code>定时触发器线程</code> 在接收到这个消息后，会在等待的时间后，将回调事件放入到由 <code>事件触发线程</code> 所管理的事件队列中。</p>
+<p>当代码执行到 <code>xhr</code>、<code>fetch</code> 时，实际上是 <code>JS引擎线程</code> 通知 <code>异步http请求线程</code>，发送一个网络请求，并制定请求完成后的回调事件， 而 <code>异步http请求线程</code> 在接收到这个消息后，会在请求成功后，将回调事件放入到由<code>事件触发线程</code> 所管理的事件队列中。</p>
+<p>当我们的同步任务执行完，<code>JS引擎线程</code> 会询问 <code>事件触发线程</code>，在事件队列中是否有待执行的回调函数，如果有就会加入到执行栈中交给 <code>JS引擎线程</code> 执行。</p>
+<p>用一张图来解释：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/21/event-loop/5-2.webp" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>总结：</p>
+<ol>
+<li>JS 引擎线程执行执行栈中的事件</li>
+<li>执行栈中的事件执行完毕，就开始读取事件队列中的事件</li>
+<li>事件队列中的回调事件加入到执行栈依次执行</li>
+</ol>
+<p><code>2</code>,<code>3</code> 重复循环</p>
+<h2 id="宏任务、微任务"><a href="#宏任务、微任务" class="headerlink" title="宏任务、微任务"></a>宏任务、微任务</h2><p>当我们基本了解了什么是执行栈，什么是事件队列之后，我们深入了解一下事件循环中 <code>宏任务</code>、<code>微任务</code>。</p>
+<h3 id="宏任务"><a href="#宏任务" class="headerlink" title="宏任务"></a>宏任务</h3><p>我们可以将每次执行栈执行的代码当做是一个宏任务（包括每次从事件队列中获取一个事件回调并放到执行栈中执行），<br>每一个宏任务会从头到尾执行完毕，不会执行其他。<br>我们前文提到过 <code>JS引擎线程</code> 和 <code>GUI渲染线程</code> 是互斥的关系，浏览器为了能够使宏任务和 <code>DOM</code> 任务有序的进行，会在一个宏任务执行结果后，在下一个宏任务执行前，<code>GUI 渲染线程</code> 开始工作，对页面进行渲染。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 宏任务--&gt;渲染--&gt;宏任务--&gt;渲染--&gt;．．．</span></span><br></pre></td></tr></table></figure>
+<p><code>script（主代码块）</code>，<code>setTimeout</code>，<code>setInterval</code>、<code>I/O(ajax)</code>,<code>setImmedidate(node)</code>，都属于宏任务。</p>
+<p>举个例子🌰：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.body.style = <span class="string">'background:black'</span>;</span><br><span class="line"><span class="built_in">document</span>.body.style = <span class="string">'background:red'</span>;</span><br><span class="line"><span class="built_in">document</span>.body.style = <span class="string">'background:blue'</span>;</span><br><span class="line"><span class="built_in">document</span>.body.style = <span class="string">'background:grey'</span>;</span><br></pre></td></tr></table></figure>
+<p>我们将这段代码放到浏览器控制台执行一下，看一下效果：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/21/event-loop/6-1.gif" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>我们看到，页面背景会在瞬间变成灰色。这是因为以上代码属于同一次宏任务，所以全部执行完才触发页面渲染，渲染时<code>GUI 渲染线程</code>会将所有 UI 改动合并优化，所以在视觉效果上，只会看到页面变成灰色。</p>
+<p>再来个例子🌰🌰：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.body.style = <span class="string">'background:blue'</span>;</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">document</span>.body.style = <span class="string">'background:black'</span></span><br><span class="line">&#125;, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>执行一下，看下效果：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/21/event-loop/6-2.gif" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>我们看到，页面先显示成蓝色背景，然后又变成了黑色背景，这是因为以上代码属于两次 <code>宏任务</code>，第一次 <code>宏任务</code> 执行的代码是将背景变成蓝色，然后触发渲染，将页面变成蓝色，再触发第二次 <code>宏任务</code> 将背景变成黑色。</p>
+<h3 id="微任务"><a href="#微任务" class="headerlink" title="微任务"></a>微任务</h3><p>我们已经知道 <code>宏任务</code> 结束后，会执行渲染，然后执行下一个 <code>宏任务</code>， 而 <code>微任务</code> 可以理解成在当前 <code>宏任务</code> 执行后立即执行的任务。</p>
+<p>也就是说，当 <code>宏任务</code> 执行完，会在渲染前，将执行期间所产生的所有 <code>微任务</code> 都执行完。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 宏任务--&gt;微任务--&gt;渲染--&gt;宏任务--&gt;微任务--&gt;渲染--&gt;．．．</span></span><br></pre></td></tr></table></figure>
+<p><code>process.nextTick(node)</code>，<code>Promise</code>，<code>MutationObserver</code> 属于微任务。</p>
+<p><code>process.nextTick</code> 是有一个插队操作的，就是说他进入微任务队列时，会插到除了 <code>process.nextTick</code> 其他的微任务前面。</p>
+<p>举个例子🌰：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.body.style = <span class="string">'background:blue'</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>);</span><br><span class="line">    <span class="built_in">document</span>.body.style = <span class="string">'background:black'</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p>执行一下，看下效果：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/21/event-loop/6-3.gif" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>控制台输出 1 3 2 , 是因为 <code>promise</code> 对象的 <code>then</code> 方法的回调函数是异步执行，所以 2 最后输出页面的背景色直接变成黑色，没有经过蓝色的阶段，是因为，我们在宏任务中将背景设置为蓝色，但在进行渲染前执行了微任务，在微任务中将背景变成了黑色，然后才执行的渲染。</p>
+<p>再比如说：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">Promise</span>.resolve(<span class="number">3</span>).then(<span class="function"><span class="params">data</span> =&gt;</span> <span class="built_in">console</span>.log(data));</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="comment">// 1 3 2</span></span><br></pre></td></tr></table></figure>
+<p>上面代码共包含两个 <code>setTimeout</code>，也就是说除主代码块外，还有两个 <code>宏任务</code>，其中第一个 <code>宏任务</code> 执行中，输出 1，并且创建了 <code>微任务队列</code>，所以在下一个 <code>宏任务队列</code> 执行前，先执行 <code>微任务</code>，在 <code>微任务</code> 执行中，输出 3 ，<code>微任务</code> 执行后，执行下一次 <code>宏任务</code>，执行中输出 2。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>执行一个<code>宏任务</code> （栈中没有就从 <code>事件队列</code> 中获取）</li>
+<li>执行过程中如果遇到 <code>微任务</code>，就将它添加到 <code>微任务队列</code>中</li>
+<li>宏任务执行完毕后，立即执行当前 <code>微任务队列</code> 中的所有 <code>微任务</code> （依次执行）</li>
+<li>当前 <code>宏任务</code> 执行完毕，开始检查渲染，然后 <code>GUI 渲染线程</code> 接管渲染</li>
+<li>渲染完毕后，<code>JS引擎线程</code> 继续接管，开始下一个 <code>宏任务</code>（从事件队列中获取）</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/03/21/event-loop/7-1.webp" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="题外话"><a href="#题外话" class="headerlink" title="题外话"></a>题外话</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="params">()</span>=&gt;</span><span class="built_in">console</span>.log(<span class="number">3</span>), <span class="number">2</span>);</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span>=&gt;</span><span class="built_in">console</span>.log(<span class="number">2</span>), <span class="number">1</span>);</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span>=&gt;</span><span class="built_in">console</span>.log(<span class="number">1</span>), <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>没有深入接触过 <code>timer</code> 的同学如果直接从代码中的延时设置来看，会回答：<code>1、2、3</code>。</p>
+<p>而另一些有一定经验的同学可能会回答：<code>3、2、1</code>。因为 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/setTimeout" target="_blank" rel="noopener">MDN 的 setTimeout</a> 文档中提到 <code>HTML</code> 规范最低延时为 <strong>4ms</strong>：</p>
+<p><em>(补充说明：最低延时的设置是为了给CPU留下休息时间）</em></p>
+<blockquote>
+<p>In fact, 4ms is specified by the HTML5 spec and is consistent across browsers released in 2010 and onward. Prior to (Firefox 5.0 / Thunderbird 5.0 / SeaMonkey 2.2), the minimum timeout value for nested timeouts was 10 ms.</p>
+</blockquote>
+<p>而真正痛过的同学会告诉你，答案是：<code>1、0、2</code>。</p>
+<p>我们发现 0ms 和 1ms 的延时效果是一样的，通过资料我们发现：</p>
+<h3 id="在-chrome-中"><a href="#在-chrome-中" class="headerlink" title="在 chrome 中"></a>在 chrome 中</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// https://chromium.googlesource.com/chromium/blink/+/master/Source/core/frame/DOMTimer.cpp#93</span></span><br><span class="line">double intervalMilliseconds = std::max(oneMillisecond, interval * oneMillisecond);</span><br></pre></td></tr></table></figure>
+<p>这里 interval 就是传入的数值，可以看出传入 0 和传入 1 结果都是 oneMillisecond，即 1ms。</p>
+<p>这样解释了为何 1ms 和 0ms 行为是一致的，那 4ms 到底是怎么回事？查阅 <a href="https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers" target="_blank" rel="noopener">HTML 规范</a>，发现虽然有 4ms 的限制，但是是存在条件的，详见规范第 11 点：</p>
+<blockquote>
+<p>If nesting level is greater than 5, and timeout is less than 4, then set timeout to 4.</p>
+</blockquote>
+<h3 id="在-node-中"><a href="#在-node-中" class="headerlink" title="在 node 中"></a>在 node 中</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// https://github.com/nodejs/node/blob/v8.9.4/lib/timers.js#L456</span></span><br><span class="line"><span class="keyword">if</span> (!(after &gt;= <span class="number">1</span> &amp;&amp; after &lt;= TIMEOUT_MAX))</span><br><span class="line">  after = <span class="number">1</span>; <span class="comment">// schedule on next tick, follows browser behavior</span></span><br></pre></td></tr></table></figure>
+<p>代码中的注释直接说明了，设置最低 1ms 的行为是为了向浏览器行为看齐。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-03-26T17:05:02.601Z" itemprop="dateUpdated">2020-03-27 01:05:02</time>
+</span><br>
+
+
+        
+        <a href="/2020/03/21/event-loop/" target="_blank" rel="external">http://xyue.me/2020/03/21/event-loop/</a>
+        
+    </div>
+    <footer>
+        <a href="http://xyue.me">
+            <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" alt="歆月">
+            歆月
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2020/03/21/event-loop/&title=《从多线程到 Event Loop》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2020/03/21/event-loop/&title=《从多线程到 Event Loop》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2020/03/21/event-loop/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《从多线程到 Event Loop》 — XYue's Notes&url=http://xyue.me/2020/03/21/event-loop/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2020/03/21/event-loop/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/03/30/promise-realize/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Promise 实现原理</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/03/18/this-call-apply-bind/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">this、call、apply、bind</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+<section class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDY2MC83MjE1">
+        <script type="text/javascript">
+            (function(d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        <i class="icon icon-user"></i><span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        <i class="icon icon-eye"></i><span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>歆月 &copy; 2017 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2020/03/21/event-loop/&title=《从多线程到 Event Loop》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2020/03/21/event-loop/&title=《从多线程到 Event Loop》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2020/03/21/event-loop/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《从多线程到 Event Loop》 — XYue's Notes&url=http://xyue.me/2020/03/21/event-loop/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2020/03/21/event-loop/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABw0lEQVR42u3aQY6DMAwF0N7/0sx2NtBvO4mo9LJCFJJXFpZj5/OJxxWP/8/n14sHLi7umNtb/nmxuxmSOe8MuLi457l3SybP3E39/Ofz+XFxcd/PnQS75F1cXNzf4uYhqXcHFxf3bdxk85Ms3EuJtuzVcHFxB9y8Srnvekt9FxcXt8W9iiNJQZ7vXIOBi4t7httrpVRLJ9XU58tHwcXF3cxNHqoGpl6jJQqFuLi4B7n5ViSn9zZOUUaGi4u7mZu/lrdOJ9kWLi7uG7irih3zAmvysXBxcc9wJ4slQSrpiSxrseDi4i7iVgNZL7mpHrC4TapwcXGPcOftkPwAVh7yvsyPi4u7mTs/bPGcslRLKl/ewsXFPcKtLpknMb2Eqbw/w8XFPcKdtFeruVUSvMolElxc3EXc6gtJYErSnSSk3pZFcHFxj3CraU21GNorizSzKlxc3AH3Ko59Hc/oV1xc3CPcSdFkcoyj15LBxcU9yd2RoORHNsutXFxc3IPc6qaoeqwqD4JRwRQXF/dl3KQgks9TLq3i4uL+CLfaFEmOfy1LcXBxcQfcXojJ7yxrq+Di4h7hVkufeQG0WgTJ7+Pi4m7j/gHp9QEv3op0rwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了😥!';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '咦!回来啦😋!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

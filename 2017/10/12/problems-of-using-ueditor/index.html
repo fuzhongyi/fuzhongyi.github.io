@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66539672"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?71d34fe208bc96e33a9d60adabaf9dcb"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Site Verification-->
+<meta name="baidu-site-verification" content="PAq6P6Yule">
+<!-- End Baidu Site Verification-->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="https://xyue.me/2017/10/12/problems-of-using-ueditor/">
+    
+    
+    <title>使用 UEditor(JSP 1.4.3版本) 遇到的问题 | XYue&#39;s Notes | Keep Going</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="富文本编辑器,UEditor">
+    <meta name="description" content="ueditor简介: UEditor是由百度web前端研发部开发所见即所得富文本web编辑器，具有轻量，可定制，注重用户体验等特点，开源基于MIT协议，允许自由使用和修改代码…  遇到问">
+<meta name="keywords" content="富文本编辑器,UEditor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 UEditor(JSP 1.4.3版本) 遇到的问题">
+<meta property="og:url" content="http://xyue.me/2017/10/12/problems-of-using-ueditor/index.html">
+<meta property="og:site_name" content="XYue&#39;s Notes">
+<meta property="og:description" content="ueditor简介: UEditor是由百度web前端研发部开发所见即所得富文本web编辑器，具有轻量，可定制，注重用户体验等特点，开源基于MIT协议，允许自由使用和修改代码…  遇到问">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://xyue.me/2017/10/12/problems-of-using-ueditor/header-img.jpg">
+<meta property="og:image" content="http://xyue.me/2017/10/12/problems-of-using-ueditor/2-1.png">
+<meta property="og:image" content="http://xyue.me/2017/10/12/problems-of-using-ueditor/2-2.png">
+<meta property="og:image" content="http://xyue.me/2017/10/12/problems-of-using-ueditor/2-3.png">
+<meta property="og:updated_time" content="2020-01-20T03:49:52.119Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 UEditor(JSP 1.4.3版本) 遇到的问题">
+<meta name="twitter:description" content="ueditor简介: UEditor是由百度web前端研发部开发所见即所得富文本web编辑器，具有轻量，可定制，注重用户体验等特点，开源基于MIT协议，允许自由使用和修改代码…  遇到问">
+<meta name="twitter:image" content="http://xyue.me/2017/10/12/problems-of-using-ueditor/header-img.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="XYue&#39;s Notes" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">歆月</h5>
+          <a href="mailto:fuzy450@foxmail.com" title="fuzy450@foxmail.com" class="mail">fuzy450@foxmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://wpa.qq.com/msgrd?v=3&uin=450805067&site=qq&menu=yes" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/fuzhongyi" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://leetcode.xyue.me" target="_blank" >
+                <i class="icon icon-lg icon-code"></i>
+                LeetCode
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">使用 UEditor(JSP 1.4.3版本) 遇到的问题</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">使用 UEditor(JSP 1.4.3版本) 遇到的问题</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-10-12T09:02:01.000Z" itemprop="datePublished" class="page-time">
+  2017-10-12
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/问题记录/">问题记录</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ueditor简介"><span class="post-toc-number">1.</span> <span class="post-toc-text">ueditor简介:</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#遇到问题及解决方案"><span class="post-toc-number">2.</span> <span class="post-toc-text">遇到问题及解决方案</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#setContent报错"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">setContent报错</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#描述"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">描述</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#原因"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">原因</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#解决"><span class="post-toc-number">2.1.3.</span> <span class="post-toc-text">解决</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#方法一"><span class="post-toc-number">2.1.3.1.</span> <span class="post-toc-text">方法一</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#方法二"><span class="post-toc-number">2.1.3.2.</span> <span class="post-toc-text">方法二</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#上传文件——“未找到上传数据”"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">上传文件——“未找到上传数据”</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#描述-1"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">描述</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#原因-1"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">原因</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#解决-1"><span class="post-toc-number">2.2.3.</span> <span class="post-toc-text">解决</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#上传文件消失"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">上传文件消失</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#描述-2"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">描述</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#原因-2"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">原因</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#解决-2"><span class="post-toc-number">2.3.3.</span> <span class="post-toc-text">解决</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#方法一：修改上传路径到webapps目录下"><span class="post-toc-number">2.3.3.1.</span> <span class="post-toc-text">方法一：修改上传路径到webapps目录下</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#方法二：配置-tomcat-虚拟目录"><span class="post-toc-number">2.3.3.2.</span> <span class="post-toc-text">方法二：配置 tomcat 虚拟目录</span></a></li></ol></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-problems-of-using-ueditor"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">使用 UEditor(JSP 1.4.3版本) 遇到的问题</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-10-12 17:02:01" datetime="2017-10-12T09:02:01.000Z"  itemprop="datePublished">2017-10-12</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/问题记录/">问题记录</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2017/10/12/problems-of-using-ueditor/header-img.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="ueditor简介"><a href="#ueditor简介" class="headerlink" title="ueditor简介:"></a>ueditor简介:</h2><blockquote>
+<p>UEditor是由百度web前端研发部开发所见即所得富文本web编辑器，具有轻量，可定制，注重用户体验等特点，开源基于MIT协议，允许自由使用和修改代码…</p>
+</blockquote>
+<h2 id="遇到问题及解决方案"><a href="#遇到问题及解决方案" class="headerlink" title="遇到问题及解决方案"></a>遇到问题及解决方案</h2><h3 id="setContent报错"><a href="#setContent报错" class="headerlink" title="setContent报错"></a>setContent报错</h3><h4 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h4><p>当使用setContent给初始化容器设置内容时出现如下错误：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2017/10/12/problems-of-using-ueditor/2-1.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<h4 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h4><p>异步，初始化容器并未创建完成，需等待编辑器创建完成后才能使用。</p>
+<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><h5 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h5><p>使用setTimeout延迟一段时间后调用（不建议：由于setTimeout设置的时间与实际渲染需要的时间不一致）；</p>
+<h5 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h5><p>使用addListener(‘ready’,callback)，待编辑器创建完成后执行callback回调。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ue.addListener(<span class="string">'ready'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   ue.setContent(content);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="上传文件——“未找到上传数据”"><a href="#上传文件——“未找到上传数据”" class="headerlink" title="上传文件——“未找到上传数据”"></a>上传文件——“未找到上传数据”</h3><h4 id="描述-1"><a href="#描述-1" class="headerlink" title="描述"></a>描述</h4><p>无论上传什么文件均出现如下错误：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2017/10/12/problems-of-using-ueditor/2-2.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<h4 id="原因-1"><a href="#原因-1" class="headerlink" title="原因"></a>原因</h4><ol>
+<li>struts2：<br>struts2 框架默认使用 apache 的 commons-fileUpload 组件和内建的 FileUploadInterceptor 拦截器实现上传，会将 request 文件域封装到 action 中一个 File 类型的属性中，并删除 request 中的文件域，因此会上传文件失败。</li>
+<li>springMVC：<br>UEditor 默认使用 commons 组件，而 springMVC 对 commons 组件进行了封装，使得上传后获取不到文件。</li>
+</ol>
+<h4 id="解决-1"><a href="#解决-1" class="headerlink" title="解决"></a>解决</h4><ol>
+<li><p>struts2：<br>自定义一个 struts 过滤器，指定不对 ueditor/jsp/ 目录下的 jsp 页面进行过滤。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyStrutsFilter</span> <span class="keyword">extends</span> <span class="title">StrutsPrepareAndExecuteFilter</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest req, ServletResponse res,</span></span></span><br><span class="line"><span class="function"><span class="params">            FilterChain chain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        HttpServletRequest request = (HttpServletRequest) req;</span><br><span class="line">        String url = request.getRequestURI();         </span><br><span class="line">        System.out.println(url);         </span><br><span class="line">        <span class="keyword">if</span> (url.contains(request.getContextPath()+<span class="string">"/js/utf8-jsp/jsp/controller.jsp"</span>)) &#123;             </span><br><span class="line">            System.out.println(<span class="string">"使用自定义过滤器"</span>);             </span><br><span class="line">            chain.doFilter(req, res);         </span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;             </span><br><span class="line">            System.out.println(<span class="string">"使用默认过滤器"</span>);             </span><br><span class="line">            <span class="keyword">super</span>.doFilter(req, res, chain);         </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>springMVC：<br>修改源码 upload 包下的 BinaryUploader.java 文件。<br>下载并使用源码：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2017/10/12/problems-of-using-ueditor/2-3.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>重写 BinaryUploader.java ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinaryUploader</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> State <span class="title">save</span><span class="params">(HttpServletRequest request,Map&lt;String, Object&gt; conf)</span> </span>&#123;</span><br><span class="line">        InputStream fileStream = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (!ServletFileUpload.isMultipartContent(request)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> BaseState(<span class="keyword">false</span>, AppInfo.NOT_MULTIPART_CONTENT);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//修改了百度使用原生的commons上传方式</span></span><br><span class="line">            DefaultMultipartHttpServletRequest multipartRequest=(DefaultMultipartHttpServletRequest)request;</span><br><span class="line">            Iterator&lt;String&gt; fileNames=multipartRequest.getFileNames();</span><br><span class="line">            MultipartFile file=<span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">while</span> (fileNames.hasNext())&#123;</span><br><span class="line">                file=multipartRequest.getFiles(fileNames.next()).get(<span class="number">0</span>);</span><br><span class="line">                fileStream=file.getInputStream();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (fileStream == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> BaseState(<span class="keyword">false</span>, AppInfo.NOTFOUND_UPLOAD_DATA);</span><br><span class="line">            &#125;</span><br><span class="line">            String savePath = (String) conf.get(<span class="string">"savePath"</span>);</span><br><span class="line">            String originFileName = file.getOriginalFilename();</span><br><span class="line">            String suffix = FileType.getSuffixByFilename(originFileName);</span><br><span class="line">            originFileName = originFileName.substring(<span class="number">0</span>,originFileName.length() - suffix.length());</span><br><span class="line">            savePath = savePath + suffix;</span><br><span class="line">            <span class="keyword">long</span> maxSize = ((Long) conf.get(<span class="string">"maxSize"</span>)).longValue();</span><br><span class="line">            <span class="keyword">if</span> (!BinaryUploader.validType(suffix, (String[]) conf.get(<span class="string">"allowFiles"</span>))) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> BaseState(<span class="keyword">false</span>, AppInfo.NOT_ALLOW_FILE_TYPE);</span><br><span class="line">            &#125;</span><br><span class="line">            savePath = PathFormat.parse(savePath, originFileName);</span><br><span class="line">            String physicalPath = (String) conf.get(<span class="string">"rootPath"</span>) + savePath;</span><br><span class="line">            State storageState = StorageManager.saveFileByInputStream(fileStream,physicalPath, maxSize);</span><br><span class="line">            fileStream.close();</span><br><span class="line">            <span class="keyword">if</span> (storageState.isSuccess()) &#123;</span><br><span class="line">                storageState.putInfo(<span class="string">"url"</span>, PathFormat.format(savePath));</span><br><span class="line">                storageState.putInfo(<span class="string">"type"</span>, suffix);</span><br><span class="line">                storageState.putInfo(<span class="string">"original"</span>, originFileName + suffix);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> storageState;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassCastException e) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> BaseState(<span class="keyword">false</span>, AppInfo.PARSE_REQUEST_ERROR);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> BaseState(<span class="keyword">false</span>, AppInfo.IO_ERROR);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">validType</span><span class="params">(String type, String[] allowTypes)</span> </span>&#123;</span><br><span class="line">        List&lt;String&gt; list = Arrays.asList(allowTypes);</span><br><span class="line">        <span class="keyword">return</span> list.contains(type);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="上传文件消失"><a href="#上传文件消失" class="headerlink" title="上传文件消失"></a>上传文件消失</h3><h4 id="描述-2"><a href="#描述-2" class="headerlink" title="描述"></a>描述</h4><p>使用 tomcat ，已上传文件在重新部署项目后丢失。</p>
+<h4 id="原因-2"><a href="#原因-2" class="headerlink" title="原因"></a>原因</h4><p>UEditor 上传配置文件 config.json 默认将上传文件上传到项目中，重新部署会清空项目文件。</p>
+<h4 id="解决-2"><a href="#解决-2" class="headerlink" title="解决"></a>解决</h4><h5 id="方法一：修改上传路径到webapps目录下"><a href="#方法一：修改上传路径到webapps目录下" class="headerlink" title="方法一：修改上传路径到webapps目录下"></a>方法一：修改上传路径到webapps目录下</h5><p>第一步：<br>将配置文件中上传保存路径<br><code>/ueditor/jsp/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}</code><br>修改为<br><code>/../ueditor/jsp/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}</code></p>
+<p>第二步：<br>修改返回文件请求地址，将重写后 BinaryUploader.java 第33行的<br><code>PathFormat.format(savePath)</code><br>修改为<br><code>PathFormat.format(savePath).replace(&quot;/..&quot;, &quot;&quot;)</code></p>
+<h5 id="方法二：配置-tomcat-虚拟目录"><a href="#方法二：配置-tomcat-虚拟目录" class="headerlink" title="方法二：配置 tomcat 虚拟目录"></a>方法二：配置 tomcat 虚拟目录</h5><p>第一步：<br>打开 %TOMCAT_HOME%/conf/server.xml（即tomcat的安装目录下面相关的文件），在 Host 中加入如下代码：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/ueditor"</span> <span class="attr">docBase</span>=<span class="string">"D:\ueditor"</span> <span class="attr">reloadable</span>=<span class="string">"true"</span>&gt;</span><span class="tag">&lt;/<span class="name">Context</span>&gt;</span>       </span><br><span class="line"><span class="tag">&lt;/<span class="name">Host</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>第二步：<br>修改上传路径，将重写后 BinaryUploader.java 第29行的<br><code>(String) conf.get(&quot;rootPath&quot;) + savePath</code><br>修改为<br><code>&quot;D://&quot; + savePath</code></p>
+<p><strong>上传路径与虚拟目录 docBase 保持一致</strong></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-01-20T03:49:52.119Z" itemprop="dateUpdated">2020-01-20 11:49:52</time>
+</span><br>
+
+
+        
+        <a href="/2017/10/12/problems-of-using-ueditor/" target="_blank" rel="external">http://xyue.me/2017/10/12/problems-of-using-ueditor/</a>
+        
+    </div>
+    <footer>
+        <a href="http://xyue.me">
+            <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" alt="歆月">
+            歆月
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UEditor/">UEditor</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/富文本编辑器/">富文本编辑器</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2017/10/12/problems-of-using-ueditor/&title=《使用 UEditor(JSP 1.4.3版本) 遇到的问题》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2017/10/12/problems-of-using-ueditor/&title=《使用 UEditor(JSP 1.4.3版本) 遇到的问题》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2017/10/12/problems-of-using-ueditor/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用 UEditor(JSP 1.4.3版本) 遇到的问题》 — XYue's Notes&url=http://xyue.me/2017/10/12/problems-of-using-ueditor/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2017/10/12/problems-of-using-ueditor/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/10/18/search-engine-solr-build/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">全文检索引擎 Solr 搭建</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/09/30/master-worker-design/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Master-Worker 设计模式</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+<section class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDY2MC83MjE1">
+        <script type="text/javascript">
+            (function(d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        <i class="icon icon-user"></i><span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        <i class="icon icon-eye"></i><span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>歆月 &copy; 2017 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2017/10/12/problems-of-using-ueditor/&title=《使用 UEditor(JSP 1.4.3版本) 遇到的问题》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2017/10/12/problems-of-using-ueditor/&title=《使用 UEditor(JSP 1.4.3版本) 遇到的问题》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2017/10/12/problems-of-using-ueditor/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用 UEditor(JSP 1.4.3版本) 遇到的问题》 — XYue's Notes&url=http://xyue.me/2017/10/12/problems-of-using-ueditor/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2017/10/12/problems-of-using-ueditor/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJklEQVR42u3aS47DIBAFwNz/0p5tFoP1uiGWDMUqiiybYtHqD59PvK6v1Xvy+5/738lXmgsDA+O1jOt2jZ5ZexD5d4fvwcDAOIAxevX975nt5oz7vWFgYGAkCdz95/OgiYGBgfEMYxUYAwMDo1fE3qeDoyfzbT1Ui2NgYLyQkTfLnv/9k/kGBgbGqxhXceXvmRl8lneFgYGxNSMPcL0t9kYIzSsdGBgYmzKSV+QNr7wAzpPCKGRjYGAcwKiOGPNPzjT6C8eBgYGxNSMfVSZJYdLQrzb1CqknBgbGwYzq9YscvLjExcDA2JSRp3qrmmv37HzkgIGBcTKjl/YliV1y7axaBv8zGMDAwNiasTbUzjTdyseEgYGxNaOaJlYDbnXa2BuRYmBgnMAoB7XWGCBBzlwKwcDAOIHRuxCWh93kUPLUcDjCxMDA2JTRK2J76V219T8zisDAwNiD0Ssg8+A7U/Tm4R4DA2NvRm+jObU6VJg5LAwMjL0ZvUQwnzkkZW2vGTesxTEwMDZl5O2z6hWutchh2MXAwDiMkTfIZsaTSeKYfxcDA2NXxlVcecmaB+JeyhjlthgYGFswqhezqlfBegOA+eEBBgbGfozelaxqoEzA1YCLgYFxGqPXCEvGmT8cBszczsDAwDiA0Rt/VpNRDAwMjHlGkiYWZhQBaXhkGBgYBzDWXqSotszyEndBLY6BgfFCxnyilqeDSVBOwFPzDQwMjDcx/gATDZNhNZ1znwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了😥!';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '咦!回来啦😋!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

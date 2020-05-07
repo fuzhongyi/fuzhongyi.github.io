@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66539672"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?71d34fe208bc96e33a9d60adabaf9dcb"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Site Verification-->
+<meta name="baidu-site-verification" content="PAq6P6Yule">
+<!-- End Baidu Site Verification-->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="https://xyue.me/2018/02/23/js-easy-to-confuse-methods/">
+    
+    
+    <title>JS 易混淆的方法整理 | XYue&#39;s Notes | Keep Going</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="javascript,备忘">
+    <meta name="description" content="js的字符串方法如substr、substring，数组方法如slice、splice等名字相近，用法稍有不同，让开发者在开发过程中总是记不起其用法，需要查资料。现整理一下，希望有助大家记忆。  String 对象slice stringObject.slice(start, end)  123456var a = &apos;Hello world!&apos;;var b = a.slice(2);var c">
+<meta name="keywords" content="javascript,备忘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS 易混淆的方法整理">
+<meta property="og:url" content="http://xyue.me/2018/02/23/js-easy-to-confuse-methods/index.html">
+<meta property="og:site_name" content="XYue&#39;s Notes">
+<meta property="og:description" content="js的字符串方法如substr、substring，数组方法如slice、splice等名字相近，用法稍有不同，让开发者在开发过程中总是记不起其用法，需要查资料。现整理一下，希望有助大家记忆。  String 对象slice stringObject.slice(start, end)  123456var a = &apos;Hello world!&apos;;var b = a.slice(2);var c">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-03-18T07:12:14.755Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS 易混淆的方法整理">
+<meta name="twitter:description" content="js的字符串方法如substr、substring，数组方法如slice、splice等名字相近，用法稍有不同，让开发者在开发过程中总是记不起其用法，需要查资料。现整理一下，希望有助大家记忆。  String 对象slice stringObject.slice(start, end)  123456var a = &apos;Hello world!&apos;;var b = a.slice(2);var c">
+    
+        <link rel="alternate" type="application/atom+xml" title="XYue&#39;s Notes" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">歆月</h5>
+          <a href="mailto:fuzy450@foxmail.com" title="fuzy450@foxmail.com" class="mail">fuzy450@foxmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://wpa.qq.com/msgrd?v=3&uin=450805067&site=qq&menu=yes" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/fuzhongyi" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://leetcode.xyue.me" target="_blank" >
+                <i class="icon icon-lg icon-code"></i>
+                LeetCode
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JS 易混淆的方法整理</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JS 易混淆的方法整理</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-02-23T06:12:58.000Z" itemprop="datePublished" class="page-time">
+  2018-02-23
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/转载/">转载</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#String-对象"><span class="post-toc-number">1.</span> <span class="post-toc-text">String 对象</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#slice"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">slice</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#substr"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">substr</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#substring"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">substring</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Array对象"><span class="post-toc-number">2.</span> <span class="post-toc-text">Array对象</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#concat"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">concat</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#pop"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">pop</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#push"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">push</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#shift"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">shift</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#unshift"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">unshift</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#slice-1"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">slice</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#splice"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">splice</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sort"><span class="post-toc-number">2.8.</span> <span class="post-toc-text">sort</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#reverse"><span class="post-toc-number">2.9.</span> <span class="post-toc-text">reverse</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#map"><span class="post-toc-number">2.10.</span> <span class="post-toc-text">map</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#forEach"><span class="post-toc-number">2.11.</span> <span class="post-toc-text">forEach</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#find"><span class="post-toc-number">2.12.</span> <span class="post-toc-text">find</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#filter"><span class="post-toc-number">2.13.</span> <span class="post-toc-text">filter</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#reduce"><span class="post-toc-number">2.14.</span> <span class="post-toc-text">reduce</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-js-easy-to-confuse-methods"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JS 易混淆的方法整理</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-02-23 14:12:58" datetime="2018-02-23T06:12:58.000Z"  itemprop="datePublished">2018-02-23</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/转载/">转载</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <blockquote>
+<p>js的字符串方法如<code>substr</code>、<code>substring</code>，数组方法如<code>slice</code>、<code>splice</code>等名字相近，用法稍有不同，让开发者在开发过程中总是记不起其用法，需要查资料。现整理一下，希望有助大家记忆。</p>
+</blockquote>
+<h2 id="String-对象"><a href="#String-对象" class="headerlink" title="String 对象"></a>String 对象</h2><h3 id="slice"><a href="#slice" class="headerlink" title="slice"></a>slice</h3><blockquote>
+<p>stringObject.slice(start, end)</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">'Hello world!'</span>;</span><br><span class="line"><span class="keyword">var</span> b = a.slice(<span class="number">2</span>);</span><br><span class="line"><span class="keyword">var</span> c = a.slice(<span class="number">-4</span>, <span class="number">-2</span>);</span><br><span class="line"><span class="comment">// a: 'Hello world!'</span></span><br><span class="line"><span class="comment">// b: 'llo world!'</span></span><br><span class="line"><span class="comment">// c: 'rl'，参数可为负</span></span><br></pre></td></tr></table></figure>
+<h3 id="substr"><a href="#substr" class="headerlink" title="substr"></a>substr</h3><blockquote>
+<p>stringObject.substr(start, length)</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">'Hello world!'</span>;</span><br><span class="line"><span class="keyword">var</span> b = a.substr(<span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line"><span class="keyword">var</span> c = a.substr(<span class="number">-5</span>, <span class="number">2</span>);</span><br><span class="line"><span class="comment">// a: 'Hello world!'</span></span><br><span class="line"><span class="comment">// b: 'Hell'</span></span><br><span class="line"><span class="comment">// c: 'or'，参数可为负</span></span><br></pre></td></tr></table></figure>
+<h3 id="substring"><a href="#substring" class="headerlink" title="substring"></a>substring</h3><blockquote>
+<p>stringObject.substring(start, stop)</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">'Hello world!'</span>;</span><br><span class="line"><span class="keyword">var</span> b = a.substring(<span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line"><span class="keyword">var</span> c = a.substring(<span class="number">3</span>, <span class="number">2</span>);</span><br><span class="line"><span class="keyword">var</span> d = a.substring(<span class="number">0</span>, <span class="number">-1</span>);</span><br><span class="line"><span class="comment">// a: 'Hello world!'</span></span><br><span class="line"><span class="comment">// b: 'Hell'</span></span><br><span class="line"><span class="comment">// c: 'l'，start比stop小，交换这两个参数</span></span><br><span class="line"><span class="comment">// d: ''，参数为负，返回空字符串</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>slice、substr、substring都是字符串的切割方法，三者之间有细微的区别，根据不同的使用场景可以灵活使用。三种方法都是生成新的字符串，而不是修改原string。</p>
+</blockquote>
+<h2 id="Array对象"><a href="#Array对象" class="headerlink" title="Array对象"></a>Array对象</h2><h3 id="concat"><a href="#concat" class="headerlink" title="concat"></a>concat</h3><blockquote>
+<p>arrayObject.concat(arrayX, arrayX, …, arrayX)</p>
+</blockquote>
+<p>参数可以为具体的值，也可以为数组对象，可以任意多个。不改变现有的数组，返回被连接数组的一个副本。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = a.concat(<span class="number">4</span>, <span class="number">5</span>);</span><br><span class="line"><span class="keyword">var</span> c = a.concat([<span class="number">4</span>, <span class="number">5</span>]);</span><br><span class="line"><span class="comment">// a: [1, 2, 3]</span></span><br><span class="line"><span class="comment">// b: [1, 2, 3, 4, 5]</span></span><br><span class="line"><span class="comment">// c: [1, 2, 3, 4, 5]</span></span><br></pre></td></tr></table></figure>
+<h3 id="pop"><a href="#pop" class="headerlink" title="pop"></a>pop</h3><blockquote>
+<p>arrayObject.pop()</p>
+</blockquote>
+<p>删除 arrayObject 的最后一个元素，把数组长度减 1，并且返回它删除的元素的值。如果数组已经为空，则 pop() 不改变数组，并返回 undefined 值。该方法会改变原数组。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = a.pop();</span><br><span class="line"><span class="comment">// a: [1, 2]，修改了原数组</span></span><br><span class="line"><span class="comment">// b: 3，返回删除元素的值</span></span><br></pre></td></tr></table></figure>
+<h3 id="push"><a href="#push" class="headerlink" title="push"></a>push</h3><blockquote>
+<p>arrayObject.push(newelement1,newelement2,…,newelementX)\</p>
+</blockquote>
+<p>参数顺序添加到 arrayObject 的尾部，直接修改 arrayObject。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = a.push(<span class="number">4</span>, <span class="number">5</span>);</span><br><span class="line"><span class="comment">// a: [1, 2, 3, 4, 5]，修改了原数组</span></span><br><span class="line"><span class="comment">// b: 5，返回修改后的数组的长度</span></span><br></pre></td></tr></table></figure>
+<h3 id="shift"><a href="#shift" class="headerlink" title="shift"></a>shift</h3><blockquote>
+<p>arrayObject.shift()</p>
+</blockquote>
+<p>把数组的第一个元素从其中删除，并返回第一个元素的值。如果数组是空的，那么 shift() 方法将不进行任何操作，返回 undefined 值。该方法会改变原数组。类比pop方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = a.shift();</span><br><span class="line"><span class="comment">// a: [2, 3]，修改了原数组</span></span><br><span class="line"><span class="comment">// b: 1，返回删除元素的值</span></span><br></pre></td></tr></table></figure>
+<h3 id="unshift"><a href="#unshift" class="headerlink" title="unshift"></a>unshift</h3><blockquote>
+<p>arrayObject.unshift(newelement1, newelement2, …., newelementX)</p>
+</blockquote>
+<p>向数组的开头添加一个或更多元素，并返回新的长度。该方法的第一个参数将成为数组的新元素 0，如果还有第二个参数，它将成为新的元素 1，以此类推。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = a.unshift(<span class="number">4</span>, <span class="number">5</span>);</span><br><span class="line"><span class="comment">// a: [ 4, 5, 1, 2, 3 ]，修改了原数组</span></span><br><span class="line"><span class="comment">// b: 5，返回修改后的数组的长度</span></span><br></pre></td></tr></table></figure>
+<h3 id="slice-1"><a href="#slice-1" class="headerlink" title="slice"></a>slice</h3><blockquote>
+<p>arrayObject.slice(start, end)</p>
+</blockquote>
+<p>返回一个新的数组，包含从 start 到 end （不包括该元素）的 arrayObject 中的元素。该方法不会修改原数组。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">var</span> b = a.slice(<span class="number">2</span>);</span><br><span class="line"><span class="comment">// a: [1, 2, 3, 4, 5]，不修改原数组</span></span><br><span class="line"><span class="comment">// b: [3, 4, 5]，返回新数组</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">var</span> d = c.slice(<span class="number">2</span>, <span class="number">-1</span>);</span><br><span class="line"><span class="comment">// c: [1, 2, 3, 4, 5]，不修改原数组</span></span><br><span class="line"><span class="comment">// d: [3, 4]，返回新数组</span></span><br></pre></td></tr></table></figure>
+<h3 id="splice"><a href="#splice" class="headerlink" title="splice"></a>splice</h3><blockquote>
+<p>arrayObject.splice(index, howmany, item1, …, itemX)</p>
+</blockquote>
+<p>可删除从 index 处开始的零个或多个元素，并且用参数列表中声明的一个或多个值来替换那些被删除的元素。如果从 arrayObject 中删除了元素，则返回的是含有被删除的元素的数组。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">var</span> b = a.splice(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line"><span class="comment">// a: [1, 3, 4, 5]，修改了原数组</span></span><br><span class="line"><span class="comment">// b: [2]，返回新数组</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">var</span> d = c.splice(<span class="number">-1</span>, <span class="number">1</span>);</span><br><span class="line"><span class="comment">// c: [1, 2, 3, 4]，修改了原数组</span></span><br><span class="line"><span class="comment">// d: [5]，返回新数组</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> e = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">var</span> f = e.splice(<span class="number">1</span>, <span class="number">1</span>, <span class="number">6</span>, <span class="number">7</span>);</span><br><span class="line"><span class="comment">// e: [ 1, 6, 7, 3, 4, 5 ]，修改了原数组</span></span><br><span class="line"><span class="comment">// f: [2]，返回新数组</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> g = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">var</span> h = g.splice(<span class="number">1</span>, <span class="number">0</span>, <span class="number">8</span>);</span><br><span class="line"><span class="comment">// g: [ 1, 8, 2, 3, 4, 5 ]，修改了原数组</span></span><br><span class="line"><span class="comment">// h: []，没有删除值，返回空数组</span></span><br></pre></td></tr></table></figure>
+<h3 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h3><blockquote>
+<p>arrayObject.sort(sortBy)</p>
+</blockquote>
+<p>无参数时，将按字母顺序对数组中的元素进行排序。参数为比较函数时，如果要交换 prev 和 next 的值，返回大于 0 的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">10</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">9</span>];</span><br><span class="line"><span class="keyword">var</span> b = a.sort(<span class="function"><span class="keyword">function</span> (<span class="params">prev, next</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> prev - next;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// a: [1, 6, 8, 9, 10]，修改了原数组</span></span><br><span class="line"><span class="comment">// b: [1, 6, 8, 9, 10]，返回修改后的数组</span></span><br></pre></td></tr></table></figure>
+<h3 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h3><blockquote>
+<p>arrayObject.reverse()</p>
+</blockquote>
+<p>用于颠倒数组中元素的顺序。会改变原数组。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = a.reverse();</span><br><span class="line"><span class="comment">// a: [3, 2, 1]，修改了原数组</span></span><br><span class="line"><span class="comment">// b: [3, 2, 1]，返回修改后的数组</span></span><br></pre></td></tr></table></figure>
+<h3 id="map"><a href="#map" class="headerlink" title="map"></a>map</h3><blockquote>
+<p>arrayObject.map(function(currentValue, index, arrayObject) {})</p>
+</blockquote>
+<p>对数组的每一项进行处理，返回新数组。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = a.map(<span class="function">(<span class="params">curVal</span>) =&gt;</span> curVal * <span class="number">2</span>);</span><br><span class="line"><span class="comment">// a: [1, 2, 3]，不修改原数组</span></span><br><span class="line"><span class="comment">// b: [2, 4, 6]，返回新数组</span></span><br></pre></td></tr></table></figure>
+<h3 id="forEach"><a href="#forEach" class="headerlink" title="forEach"></a>forEach</h3><blockquote>
+<p>arrayObject.forEach(function(currentValue, index, arrayObject) {})</p>
+</blockquote>
+<p>数组的每个元素执行一次提供的函数。一般来说不修改原数组，但也可以通过处理函数修改原数组。该方法很灵活，可类比<code>for...of</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> b = a.forEach(<span class="function">(<span class="params">curVal</span>) =&gt;</span> sum += curVal);</span><br><span class="line"><span class="comment">// a: [1, 2, 3]，不修改原数组</span></span><br><span class="line"><span class="comment">// b: undefined，forEach不返回值</span></span><br><span class="line"><span class="comment">// sum: 6</span></span><br></pre></td></tr></table></figure>
+<h3 id="find"><a href="#find" class="headerlink" title="find"></a>find</h3><blockquote>
+<p>arrayObject.find(function(currentValue, index, arrayObject) {})</p>
+</blockquote>
+<p>返回数组中第一个满足测试条件（返回 true ）的元素。如果不存在这样的元素，返回undefined。findIndex类似，只不过返回的是第一个满足测试条件的元素的index。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = a.find(<span class="function">(<span class="params">curVal</span>) =&gt;</span> curVal === <span class="number">1</span>);</span><br><span class="line"><span class="keyword">var</span> c = a.find(<span class="function">(<span class="params">curVal</span>) =&gt;</span> curVal === <span class="number">4</span>);</span><br><span class="line"><span class="comment">// a: [1, 2, 3]，不修改原数组</span></span><br><span class="line"><span class="comment">// b: 1</span></span><br><span class="line"><span class="comment">// c: undefined</span></span><br></pre></td></tr></table></figure>
+<h3 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h3><blockquote>
+<p>arrayObject.filter(function(currentValue, index, arrayObject) {})</p>
+</blockquote>
+<p>返回数组中所有满足测试条件（返回 true ）的元素组成的数组。如果不存在这样的元素，返回[]。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = a.filter(<span class="function">(<span class="params">curVal</span>) =&gt;</span> curVal &gt; <span class="number">1</span>);</span><br><span class="line"><span class="keyword">var</span> c = a.filter(<span class="function">(<span class="params">curVal</span>) =&gt;</span> curVal &gt; <span class="number">3</span>);</span><br><span class="line"><span class="comment">// a: [1, 2, 3]，不修改原数组</span></span><br><span class="line"><span class="comment">// b: [2, 3]</span></span><br><span class="line"><span class="comment">// c: []</span></span><br></pre></td></tr></table></figure>
+<h3 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h3><blockquote>
+<p>arrayObject.filter(function(previousValue, currentValue, currentIndex, arrayObject) {}, initialValue)</p>
+</blockquote>
+<p>接收一个函数作为累加器（accumulator），数组中的每个值（从左到右）开始缩减，最终为一个值。</p>
+<p>如果没有 initialValue 参数, reduce 从 index 为 1 开始执行回调函数,跳过第一个 index。如果有 initialValue 参数, reduce 将从 index 为 0 开始执行回调。如果数组是空的并且没有 initialValue 参数,将会抛出 TypeError 错误。如果数组只有一个元素并且没有初始值 initialValue ,或者有 initialValue 但数组是空的, 这个唯一的值直接被返回而不会调用回调函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = a.reduce(<span class="function">(<span class="params">prevResult, curItem</span>) =&gt;</span> prevResult + curItem);</span><br><span class="line"><span class="comment">// a: [1, 2, 3]，不修改原数组</span></span><br><span class="line"><span class="comment">// b: 6</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>除了 Array 的<code>pop</code>、<code>push</code>、<code>shift</code>、<code>unshift</code>、<code>splice</code>、<code>sort</code>、<code>reverse</code> 这 7 个方法会修改原数组，其他方法均不会修改原数组。</p>
+</blockquote>
+<p><a href="https://juejin.im/post/5a8e3b08f265da4e9449c50e" target="_blank" rel="noopener">查看原文</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-03-18T07:12:14.755Z" itemprop="dateUpdated">2020-03-18 15:12:14</time>
+</span><br>
+
+
+        
+        <a href="/2018/02/23/js-easy-to-confuse-methods/" target="_blank" rel="external">http://xyue.me/2018/02/23/js-easy-to-confuse-methods/</a>
+        
+    </div>
+    <footer>
+        <a href="http://xyue.me">
+            <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" alt="歆月">
+            歆月
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/备忘/">备忘</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2018/02/23/js-easy-to-confuse-methods/&title=《JS 易混淆的方法整理》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2018/02/23/js-easy-to-confuse-methods/&title=《JS 易混淆的方法整理》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2018/02/23/js-easy-to-confuse-methods/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JS 易混淆的方法整理》 — XYue's Notes&url=http://xyue.me/2018/02/23/js-easy-to-confuse-methods/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2018/02/23/js-easy-to-confuse-methods/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/08/28/css-code-writing-standard/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">CSS 代码书写规范</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/02/22/git-memo/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Git 备忘录</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+<section class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDY2MC83MjE1">
+        <script type="text/javascript">
+            (function(d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        <i class="icon icon-user"></i><span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        <i class="icon icon-eye"></i><span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>歆月 &copy; 2017 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2018/02/23/js-easy-to-confuse-methods/&title=《JS 易混淆的方法整理》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2018/02/23/js-easy-to-confuse-methods/&title=《JS 易混淆的方法整理》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2018/02/23/js-easy-to-confuse-methods/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JS 易混淆的方法整理》 — XYue's Notes&url=http://xyue.me/2018/02/23/js-easy-to-confuse-methods/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2018/02/23/js-easy-to-confuse-methods/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLUlEQVR42u3aS47bMBAFwLn/pR0gqwwCCe817UlEFleGLFssLRrsz9dXvF6/19XnP6/c/8Pfd87+bbgwMDAey3jdrqsH3D/yfrv3gPvrl8/FwMA4gJEE2WQrydbzX+WvCQMDA+P+niQgvsqFgYGBsc5IYLMEGAMDA2Mlib1POGdh+h/k4hgYGA9krDcGPvf5R/sbGBgY/yXjXYll3kjID53FrjAwMLZmJMeyWcRbbzm0QxsYGBi7MlYC30oLczZycfk6MDAwtmbMUtm87LU+WpEX5jAwME5jtIG4TWijE2vw4jAwME5gzLaYjEokbciVl4iBgXEmo00U84GMlaGxKNHFwMA4gJEUxWYF/Vnwze/HwMA4gfGJAlk+Xpa3H+ojJgYGxqaMlQ29d3hi6SViYGBszci3u7LRPG1u2w8YGBgnMD49fjrrprbhGAMDYz9GUthqg2w7WrFSbit+gIGB8XBGMsjVDnvNgniLxMDAOIExO5y15ba29J+X1b5dx8DA2JSRH/5WDnyzclvRGMDAwDiMkSe0bUF/1iKtp9swMDC2Y7TJZ1uAS1qP660FDAyMvRmvcs2aAW1PNQmv377FwMDYmtEe1FbGyNoQXCSxGBgYBzDydLFNX1daAm3zAAMD4wRGW6Bvm51tulvfiYGBgTEKoHnZrm1hXhbdMDAwMBau5OxZeoyBgXECo01i2+ZBcnxMwu6wkYmBgfFwxnsbA21Cm5Tw3gDAwMB4KuMXyPTWLCXsDk4AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了😥!';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '咦!回来啦😋!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66539672"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?71d34fe208bc96e33a9d60adabaf9dcb"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Site Verification-->
+<meta name="baidu-site-verification" content="PAq6P6Yule">
+<!-- End Baidu Site Verification-->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="https://xyue.me/2017/09/12/value-passing-in-js/">
+    
+    
+    <title>JS 中的值传递 | XYue&#39;s Notes | Keep Going</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="javascript">
+    <meta name="description" content="值传递?相信在看到这个标题时，很多童鞋都会有这样的疑惑——“What?不是还有引用传递么”。像这样：1234567var person = &amp;#123; name : &apos;lilei&apos; &amp;">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS 中的值传递">
+<meta property="og:url" content="http://xyue.me/2017/09/12/value-passing-in-js/index.html">
+<meta property="og:site_name" content="XYue&#39;s Notes">
+<meta property="og:description" content="值传递?相信在看到这个标题时，很多童鞋都会有这样的疑惑——“What?不是还有引用传递么”。像这样：1234567var person = &amp;#123; name : &apos;lilei&apos; &amp;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://xyue.me/2017/09/12/value-passing-in-js/header-img.jpg">
+<meta property="og:updated_time" content="2020-01-20T03:49:52.132Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS 中的值传递">
+<meta name="twitter:description" content="值传递?相信在看到这个标题时，很多童鞋都会有这样的疑惑——“What?不是还有引用传递么”。像这样：1234567var person = &amp;#123; name : &apos;lilei&apos; &amp;">
+<meta name="twitter:image" content="http://xyue.me/2017/09/12/value-passing-in-js/header-img.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="XYue&#39;s Notes" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">歆月</h5>
+          <a href="mailto:fuzy450@foxmail.com" title="fuzy450@foxmail.com" class="mail">fuzy450@foxmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://wpa.qq.com/msgrd?v=3&uin=450805067&site=qq&menu=yes" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/fuzhongyi" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://leetcode.xyue.me" target="_blank" >
+                <i class="icon icon-lg icon-code"></i>
+                LeetCode
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JS 中的值传递</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JS 中的值传递</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-09-12T02:12:17.000Z" itemprop="datePublished" class="page-time">
+  2017-09-12
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术水波文/">技术水波文</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#值传递"><span class="post-toc-number">1.</span> <span class="post-toc-text">值传递?</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定义"><span class="post-toc-number">2.</span> <span class="post-toc-text">定义</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#传递方式"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">传递方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数据类型"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">数据类型</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#引用传递"><span class="post-toc-number">3.</span> <span class="post-toc-text">引用传递?</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解惑"><span class="post-toc-number">4.</span> <span class="post-toc-text">解惑</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-value-passing-in-js"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JS 中的值传递</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-09-12 10:12:17" datetime="2017-09-12T02:12:17.000Z"  itemprop="datePublished">2017-09-12</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术水波文/">技术水波文</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2017/09/12/value-passing-in-js/header-img.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="值传递"><a href="#值传递" class="headerlink" title="值传递?"></a>值传递?</h2><p>相信在看到这个标题时，很多童鞋都会有这样的疑惑——“What?不是还有引用传递么”。<br>像这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123; <span class="attr">name</span> : <span class="string">'lilei'</span> &#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setName</span> (<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    obj.name = <span class="string">'hanmeimei'</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(obj.name);  <span class="comment">//output: hanmeimei</span></span><br><span class="line">&#125;</span><br><span class="line">setName(person);</span><br><span class="line"><span class="built_in">console</span>.log(person.name);   <span class="comment">//output: hanmeimei</span></span><br></pre></td></tr></table></figure></p>
+<p>确实，对象person属性name的值被改变了，最初的我对此也是深信不疑。<br>在《JavaScript高级程序设计》第三版 4.1.3中，关于参数的传递这样讲到：</p>
+<blockquote>
+<p>ECMAScript中所有函数的参数都是按值传递的。</p>
+</blockquote>
+<p>啥子哎！连红宝书都这样说，那可得好好深究下。</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>在解开疑惑前，我们先了解下什么是按值传递(call by value)，什么是按引用传递(call by reference)。<br>在计算机科学里，这个部分叫求值策略(Evaluation Strategy)。它决定变量之间、函数调用时实参和形参之间值是如何传递的。</p>
+<h3 id="传递方式"><a href="#传递方式" class="headerlink" title="传递方式"></a>传递方式</h3><ul>
+<li><p>值传递(call by value)<br>常用的求值策略，函数的形参是被调用时所传实参的副本。修改形参的值并不会影响实参。</p>
+</li>
+<li><p>引用传递(call by reference)<br>函数的形参接收实参的隐式引用，而不再是副本。这意味着函数形参的值如果被修改，实参也会被修改。同时两者指向相同的值。</p>
+</li>
+</ul>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>ECMAScript包括两个不同类型的值：基本数据类型和引用数据类型。</p>
+<ul>
+<li><p>基本数据类型：<br>保存在栈内存中的简单数据段，常见的基本数据类型 <code>Number</code>、<code>String</code> 、<code>Boolean</code>、<code>Null</code>和<code>Undefined</code>，最新的ECMAScript标准定义加入了<code>Symbol</code>。</p>
+</li>
+<li><p>引用数据类型：<br>保存在堆内存中的由多个值构成的对象，比如：<code>Array</code>、<code>Function</code>和<code>Object</code>，从底层技术上看，它们三都是对象。<br>与其他语言的不同是，你不可以直接访问堆内存空间中的位置和操作堆内存空间。只能操作对象在栈内存中的引用地址。</p>
+</li>
+</ul>
+<h2 id="引用传递"><a href="#引用传递" class="headerlink" title="引用传递?"></a>引用传递?</h2><p>如果一个基本数据类型绑定给某个变量，我们可以认为该变量包含这个基本数据类型的值。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'lilei'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setName</span> (<span class="params">n</span>) </span>&#123;</span><br><span class="line">    n = <span class="string">'hanmeimei'</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(n);     <span class="comment">//output: hanmeimei</span></span><br><span class="line">&#125;</span><br><span class="line">setName(name);</span><br><span class="line"><span class="built_in">console</span>.log(name);      <span class="comment">//output: lilei</span></span><br></pre></td></tr></table></figure></p>
+<p>当我们将新值重新赋给变量，可以看到这里 name 值并没有改变,实际上 n 只是保存了 name 复制的一个副本(函数的形参是被调用时所传实参的副本)。</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>lilei</td>
+</tr>
+<tr>
+<td>n</td>
+<td>lilei</td>
+</tr>
+</tbody>
+</table>
+<p>所以，n 的改变对 name 没有影响。</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>lilei</td>
+</tr>
+<tr>
+<td>n</td>
+<td>hanmeimei</td>
+</tr>
+</tbody>
+</table>
+<p>我们把它称作值传递。<br>可以这样理解，当传递 name 到函数 setName 中，相当于拷贝了一份 name ，假设拷贝的这份叫 _name ，函数中修改的都是 _name 的值，而不会影响原来的 name 值。</p>
+<p>回到最前边我们看到的那段代码，稍加改动:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123; <span class="attr">name</span> : <span class="string">'lilei'</span> &#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setName</span> (<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// obj.name = 'hanmeimei';</span></span><br><span class="line">    obj = &#123; <span class="attr">name</span> : <span class="string">'hanmeimei'</span> &#125;;</span><br><span class="line">    <span class="built_in">console</span>.log(obj.name);  <span class="comment">//output: hanmeimei</span></span><br><span class="line">&#125;</span><br><span class="line">setName(person);</span><br><span class="line"><span class="built_in">console</span>.log(person.name);   <span class="comment">//output: lilei</span></span><br></pre></td></tr></table></figure></p>
+<p>所谓按引用传递，就是传递对象的引用，函数内部对参数的任何改变都会影响该对象的值，因为两者引用的是同一个对象。<br>但这里 obj 的改变并没有影响 person，这究竟是引用传递吗？</p>
+<h2 id="解惑"><a href="#解惑" class="headerlink" title="解惑"></a>解惑</h2><p>看到这，相信你对之前的理解已有了不一样的认识。<br>既然这不是引用传递，还会是值传递么？</p>
+<p>基本数据类型传递值，引用数据类型传递引用地址(<strong>引用类型数据在栈内存中保存的实际上是对象在堆内存中的引用地址。通过这个引用地址可以快速查找到保存中堆内存中的对象</strong>)。</p>
+<p>正如前边定义所提到的那样，值传递，<strong>函数的形参是被调用时所传实参的副本</strong>。<br>不难理解，当 person </p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>值</th>
+<th>地址</th>
+<th>对象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>person</td>
+<td>&lt;#001&gt;</td>
+<td>#001</td>
+<td>{ name : ‘lilei’ }</td>
+</tr>
+</tbody>
+</table>
+<p>做为参数进入函数 setName 后，就有了地址副本，这个地址副本和 person 的地址指向是相同的。</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>值</th>
+<th>地址</th>
+<th>对象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>person</td>
+<td>&lt;#001&gt;</td>
+<td>#001</td>
+<td>{ name : ‘lilei’ }</td>
+</tr>
+<tr>
+<td>obj</td>
+<td>&lt;#001&gt;</td>
+<td>#001</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>&lt;#002&gt;</td>
+<td>#002</td>
+<td>{ name : ‘hanmeimei’ }</td>
+</tr>
+</tbody>
+</table>
+<p>如果这个时候我们对这个副本操作改变其属性值，则指向这个地址的变量都会发生变化。<br>但我们为 obj 重新赋了值，将地址副本指向改变，指向了新的对象。</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>值</th>
+<th>地址</th>
+<th>对象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>person</td>
+<td>&lt;#001&gt;</td>
+<td>#001</td>
+<td>{ name : ‘lilei’ }</td>
+</tr>
+<tr>
+<td>obj</td>
+<td>&lt;#002&gt;</td>
+<td>#002</td>
+<td>{ name : ‘hanmeimei’ }</td>
+</tr>
+</tbody>
+</table>
+<p>这样一来 obj 和 person 就完全断了， obj 的改变并不会影响 person。 </p>
+<p><strong>传递对象引用的副本</strong>，这样的传递方式又被称之为共享传递(call by sharing)。<br>拷贝副本，也是一种值的拷贝，所以在JS中只有值传递。😉</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-01-20T03:49:52.132Z" itemprop="dateUpdated">2020-01-20 11:49:52</time>
+</span><br>
+
+
+        
+        <a href="/2017/09/12/value-passing-in-js/" target="_blank" rel="external">http://xyue.me/2017/09/12/value-passing-in-js/</a>
+        
+    </div>
+    <footer>
+        <a href="http://xyue.me">
+            <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" alt="歆月">
+            歆月
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2017/09/12/value-passing-in-js/&title=《JS 中的值传递》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2017/09/12/value-passing-in-js/&title=《JS 中的值传递》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2017/09/12/value-passing-in-js/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JS 中的值传递》 — XYue's Notes&url=http://xyue.me/2017/09/12/value-passing-in-js/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2017/09/12/value-passing-in-js/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/09/30/master-worker-design/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Master-Worker 设计模式</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/09/08/div-vertical-center/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">如何让元素里的 div 垂直居中</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+<section class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDY2MC83MjE1">
+        <script type="text/javascript">
+            (function(d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        <i class="icon icon-user"></i><span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        <i class="icon icon-eye"></i><span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>歆月 &copy; 2017 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2017/09/12/value-passing-in-js/&title=《JS 中的值传递》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2017/09/12/value-passing-in-js/&title=《JS 中的值传递》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2017/09/12/value-passing-in-js/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JS 中的值传递》 — XYue's Notes&url=http://xyue.me/2017/09/12/value-passing-in-js/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2017/09/12/value-passing-in-js/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMklEQVR42u3aQW7DMAwF0dz/0u42QBplPqkEMDVeGYFV63nBkiIfD3xdT9fzL6/35Jf1/evabZcMGTJuy7iW1/oF61e++wvk4nuTIUPGOQyyCR73eOB+t12+NxkyZMhIQyd5fp1uypAhQ8augLsOmrVnZMiQIWPNSAPoOpimKWYnuMuQIeMERlqa/vL+K/0NGTJk3IpRO6xfr01D+YZdyZAhYzSDB7haWkZGLtK26Nu1MmTIOIxROw7jbcjak/GpoQwZMkYwyBgWTwfJK3nhypEyZMiYzSBJG9l0OuxVSyVJIJYhQ8Y5DL4sHfOqhdrg08iQIWMog2+l03QkyDRVfdS+qAwZMm7L4MGUF5zpsV2r8SBDhoyhjPQgjBSZPEHsjGX8MzMiQ4aM0QxyBN8ZCKuNbgQHbTJkyBjNqG2RbzQdCOMNA7RAhgwZIxh8dow3L/sjZWkLQYYMGScw0o2SsjNtFXRKXxkyZJzGQMvC1K1WsgbvkiFDxmgGSctISOWFLlmbjnrIkCHjHAZvTKYHcDwBrZW+MmTIOI3Bi8ldIxR8sKOV58qQIWMEg2P6sFojMy5iZciQMYJxhRef4Ph24fphuk2GDBmDGJ1xsVqIrA127ArWMmTIuC9jV5DtpJXkk334BDJkyDiAwQNlv9nZ+Q8Q9DdkyJAh48tpJU8ZZciQIYPXwTyM7jq82xBwZciQcSsGT+nSsdTaQEZaKsuQIWM2o1M68vI13QoZ5pAhQ8YBjD+JzNsZTUBnIAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了😥!';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '咦!回来啦😋!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

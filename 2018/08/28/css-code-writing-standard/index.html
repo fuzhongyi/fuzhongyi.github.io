@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66539672"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?71d34fe208bc96e33a9d60adabaf9dcb"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Site Verification-->
+<meta name="baidu-site-verification" content="PAq6P6Yule">
+<!-- End Baidu Site Verification-->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="https://xyue.me/2018/08/28/css-code-writing-standard/">
+    
+    
+    <title>CSS 代码书写规范 | XYue&#39;s Notes | Keep Going</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="css">
+    <meta name="description" content="文件在样式文件的第一行首个字符位置写上 @charset 规则，编码名用 “UTF-8”。 123@charset &quot;UTF-8&quot;;.xyue&amp;#123;&amp;#125; 格式化样式书写一般">
+<meta name="keywords" content="css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS 代码书写规范">
+<meta property="og:url" content="http://xyue.me/2018/08/28/css-code-writing-standard/index.html">
+<meta property="og:site_name" content="XYue&#39;s Notes">
+<meta property="og:description" content="文件在样式文件的第一行首个字符位置写上 @charset 规则，编码名用 “UTF-8”。 123@charset &quot;UTF-8&quot;;.xyue&amp;#123;&amp;#125; 格式化样式书写一般">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://xyue.me/2018/08/28/css-code-writing-standard/header-img.jpg">
+<meta property="og:updated_time" content="2020-01-20T03:49:52.110Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS 代码书写规范">
+<meta name="twitter:description" content="文件在样式文件的第一行首个字符位置写上 @charset 规则，编码名用 “UTF-8”。 123@charset &quot;UTF-8&quot;;.xyue&amp;#123;&amp;#125; 格式化样式书写一般">
+<meta name="twitter:image" content="http://xyue.me/2018/08/28/css-code-writing-standard/header-img.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="XYue&#39;s Notes" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">歆月</h5>
+          <a href="mailto:fuzy450@foxmail.com" title="fuzy450@foxmail.com" class="mail">fuzy450@foxmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://wpa.qq.com/msgrd?v=3&uin=450805067&site=qq&menu=yes" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/fuzhongyi" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://leetcode.xyue.me" target="_blank" >
+                <i class="icon icon-lg icon-code"></i>
+                LeetCode
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">CSS 代码书写规范</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">CSS 代码书写规范</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-08-28T03:43:43.000Z" itemprop="datePublished" class="page-time">
+  2018-08-28
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术水波文/">技术水波文</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#文件"><span class="post-toc-number">1.</span> <span class="post-toc-text">文件</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#格式化"><span class="post-toc-number">2.</span> <span class="post-toc-text">格式化</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#大小写"><span class="post-toc-number">3.</span> <span class="post-toc-text">大小写</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#选择器"><span class="post-toc-number">4.</span> <span class="post-toc-text">选择器</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#代码易读性"><span class="post-toc-number">5.</span> <span class="post-toc-text">代码易读性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#每个属性声明末尾都要加分号"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">每个属性声明末尾都要加分号</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#左括号与类名之间一个空格，冒号与属性值之间一个空格"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">左括号与类名之间一个空格，冒号与属性值之间一个空格</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#逗号分隔的取值，逗号之后一个空格"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">逗号分隔的取值，逗号之后一个空格</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为单个css选择器或新申明开启新行"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">为单个css选择器或新申明开启新行</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#颜色值-rgb-rgba-hsl-hsla-rect-中不需有空格，且取值不要带有不必要的-0"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">颜色值 rgb() rgba() hsl() hsla() rect() 中不需有空格，且取值不要带有不必要的 0</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#属性值十六进制数值能用简写的尽量用简写"><span class="post-toc-number">5.6.</span> <span class="post-toc-text">属性值十六进制数值能用简写的尽量用简写</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#不要为-0-指明单位"><span class="post-toc-number">5.7.</span> <span class="post-toc-text">不要为 0 指明单位</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#属性值引号"><span class="post-toc-number">6.</span> <span class="post-toc-text">属性值引号</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#属性书写顺序"><span class="post-toc-number">7.</span> <span class="post-toc-text">属性书写顺序</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-css-code-writing-standard"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">CSS 代码书写规范</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-08-28 11:43:43" datetime="2018-08-28T03:43:43.000Z"  itemprop="datePublished">2018-08-28</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/技术水波文/">技术水波文</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/08/28/css-code-writing-standard/header-img.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h1 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h1><p>在样式文件的第一行首个字符位置写上 @charset 规则，编码名用 “UTF-8”。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@charset</span> <span class="string">"UTF-8"</span>;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.xyue</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="格式化"><a href="#格式化" class="headerlink" title="格式化"></a>格式化</h1><p>样式书写一般有两种：</p>
+<ul>
+<li>展开格式 (Expanded)</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.xyue</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>紧凑格式 (Compact)</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.xyue</span> &#123;<span class="attribute">display</span>: block;<span class="attribute">width</span>: <span class="number">100px</span>;&#125;</span><br></pre></td></tr></table></figure>
+<p>使用展开格式书写样式</p>
+<h1 id="大小写"><a href="#大小写" class="headerlink" title="大小写"></a>大小写</h1><p>样式选择器，属性名，属性值关键字均使用小写字母书写，属性字符串允许使用大小写。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* YES */</span> </span><br><span class="line"><span class="selector-class">.xyue</span> &#123;</span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">'Microsoft YaHei UI'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* NO */</span></span><br><span class="line"><span class="selector-class">.XYUE</span> &#123;</span><br><span class="line">    <span class="attribute">DISPLAY</span>: BLOCK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h1><ol>
+<li>尽量少用通用选择器 *</li>
+<li>不使用 ID 选择器</li>
+<li>不使用无具体语义定义的标签选择器</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* YES */</span></span><br><span class="line"><span class="selector-class">.xyue</span> &#123;&#125;</span><br><span class="line"><span class="selector-class">.xyue</span> <span class="selector-tag">li</span> &#123;&#125;</span><br><span class="line"><span class="selector-class">.xyue</span> <span class="selector-tag">li</span> <span class="selector-tag">p</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* NO */</span></span><br><span class="line">*&#123;&#125;</span><br><span class="line"><span class="selector-id">#xyue</span> &#123;&#125;</span><br><span class="line"><span class="selector-class">.xyue</span> <span class="selector-tag">div</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="代码易读性"><a href="#代码易读性" class="headerlink" title="代码易读性"></a>代码易读性</h1><h2 id="每个属性声明末尾都要加分号"><a href="#每个属性声明末尾都要加分号" class="headerlink" title="每个属性声明末尾都要加分号"></a>每个属性声明末尾都要加分号</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* YES */</span></span><br><span class="line"><span class="selector-class">.xyue</span> &#123; </span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* NO */</span></span><br><span class="line"><span class="selector-class">.xyue</span>&#123; </span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="左括号与类名之间一个空格，冒号与属性值之间一个空格"><a href="#左括号与类名之间一个空格，冒号与属性值之间一个空格" class="headerlink" title="左括号与类名之间一个空格，冒号与属性值之间一个空格"></a>左括号与类名之间一个空格，冒号与属性值之间一个空格</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* YES */</span></span><br><span class="line"><span class="selector-class">.xyue</span> &#123; </span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* NO */</span></span><br><span class="line"><span class="selector-class">.xyue</span>&#123; </span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="逗号分隔的取值，逗号之后一个空格"><a href="#逗号分隔的取值，逗号之后一个空格" class="headerlink" title="逗号分隔的取值，逗号之后一个空格"></a>逗号分隔的取值，逗号之后一个空格</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* YES */</span></span><br><span class="line"><span class="selector-class">.xyue</span> &#123;</span><br><span class="line">    <span class="attribute">box-shadow</span>: <span class="number">1px</span> <span class="number">1px</span> <span class="number">1px</span> <span class="number">#000</span>, <span class="number">2px</span> <span class="number">2px</span> <span class="number">2px</span> <span class="number">#999</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* NO */</span></span><br><span class="line"><span class="selector-class">.xyue</span> &#123;</span><br><span class="line">    <span class="attribute">box-shadow</span>: <span class="number">1px</span> <span class="number">1px</span> <span class="number">1px</span> <span class="number">#000</span>,<span class="number">2px</span> <span class="number">2px</span> <span class="number">2px</span> <span class="number">#999</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="为单个css选择器或新申明开启新行"><a href="#为单个css选择器或新申明开启新行" class="headerlink" title="为单个css选择器或新申明开启新行"></a>为单个css选择器或新申明开启新行</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* YES */</span></span><br><span class="line"><span class="selector-class">.xyue</span>, </span><br><span class="line"><span class="selector-class">.xyue_logo</span>, </span><br><span class="line"><span class="selector-class">.xyue_hd</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#ff0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.nav</span>&#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* NO */</span></span><br><span class="line"><span class="selector-class">.xyue</span>,<span class="selector-class">.xyue_logo</span>,<span class="selector-class">.xyue_hd</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#ff0</span>;</span><br><span class="line">&#125;<span class="selector-class">.nav</span>&#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="颜色值-rgb-rgba-hsl-hsla-rect-中不需有空格，且取值不要带有不必要的-0"><a href="#颜色值-rgb-rgba-hsl-hsla-rect-中不需有空格，且取值不要带有不必要的-0" class="headerlink" title="颜色值 rgb() rgba() hsl() hsla() rect() 中不需有空格，且取值不要带有不必要的 0"></a>颜色值 <code>rgb()</code> <code>rgba()</code> <code>hsl()</code> <code>hsla()</code> <code>rect()</code> 中不需有空格，且取值不要带有不必要的 0</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* YES */</span></span><br><span class="line"><span class="selector-class">.xyue</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,.<span class="number">5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* NO */</span></span><br><span class="line"><span class="selector-class">.xyue</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">rgba</span>( <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">0.5</span> );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="属性值十六进制数值能用简写的尽量用简写"><a href="#属性值十六进制数值能用简写的尽量用简写" class="headerlink" title="属性值十六进制数值能用简写的尽量用简写"></a>属性值十六进制数值能用简写的尽量用简写</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* YES */</span></span><br><span class="line"><span class="selector-class">.xyue</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* NO */</span></span><br><span class="line"><span class="selector-class">.xyue</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#ffffff</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="不要为-0-指明单位"><a href="#不要为-0-指明单位" class="headerlink" title="不要为 0 指明单位"></a>不要为 0 指明单位</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* YES */</span></span><br><span class="line"><span class="selector-class">.xyue</span> &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* NO */</span></span><br><span class="line"><span class="selector-class">.xyue</span> &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0px</span> <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="属性值引号"><a href="#属性值引号" class="headerlink" title="属性值引号"></a>属性值引号</h1><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* YES */</span></span><br><span class="line"><span class="selector-class">.xyue</span> &#123; </span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">'Microsoft YaHei UI'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* NO */</span></span><br><span class="line"><span class="selector-class">.xyue</span> &#123; </span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">"Microsoft YaHei UI"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="属性书写顺序"><a href="#属性书写顺序" class="headerlink" title="属性书写顺序"></a>属性书写顺序</h1><p>遵循以下顺序：</p>
+<ol>
+<li>布局定位属性：display / position / float / clear / visibility / overflow</li>
+<li>自身属性：width / height / margin / padding / border / background</li>
+<li>文本属性：color / font / text-decoration / text-align / vertical-align / white- space / break-word</li>
+<li>其他属性（CSS3）：content / cursor / border-radius / box-shadow / text-shadow / background:linear-gradient … </li>
+</ol>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.xyue</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">float</span>: left;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">20px</span> <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">font-family</span>: Arial, <span class="string">'Helvetica Neue'</span>, Helvetica, sans-serif;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#333</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,.<span class="number">5</span>);</span><br><span class="line">    <span class="attribute">-webkit-border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">-moz-border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">-ms-border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">-o-border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> <strong><em>CSS3 浏览器私有前缀在前，标准前缀在后</em></strong></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-01-20T03:49:52.110Z" itemprop="dateUpdated">2020-01-20 11:49:52</time>
+</span><br>
+
+
+        
+        <a href="/2018/08/28/css-code-writing-standard/" target="_blank" rel="external">http://xyue.me/2018/08/28/css-code-writing-standard/</a>
+        
+    </div>
+    <footer>
+        <a href="http://xyue.me">
+            <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" alt="歆月">
+            歆月
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2018/08/28/css-code-writing-standard/&title=《CSS 代码书写规范》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2018/08/28/css-code-writing-standard/&title=《CSS 代码书写规范》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2018/08/28/css-code-writing-standard/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CSS 代码书写规范》 — XYue's Notes&url=http://xyue.me/2018/08/28/css-code-writing-standard/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2018/08/28/css-code-writing-standard/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/03/17/what-did-new-do/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">javascript new 原理</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/02/23/js-easy-to-confuse-methods/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">JS 易混淆的方法整理</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+<section class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDY2MC83MjE1">
+        <script type="text/javascript">
+            (function(d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        <i class="icon icon-user"></i><span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        <i class="icon icon-eye"></i><span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>歆月 &copy; 2017 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2018/08/28/css-code-writing-standard/&title=《CSS 代码书写规范》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2018/08/28/css-code-writing-standard/&title=《CSS 代码书写规范》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2018/08/28/css-code-writing-standard/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CSS 代码书写规范》 — XYue's Notes&url=http://xyue.me/2018/08/28/css-code-writing-standard/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2018/08/28/css-code-writing-standard/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMklEQVR42u3aS47jMAwFwL7/pd3ArAbotvJIegawVFoFjuKosmD48ddXvK4/a/3uzz1/X/m5J7ny8MLAwHgt41quuz3rg65J+WeTs2FgYJzDWAfZdSjMw2gSUu9+pg9nxsDAwLgJl70gmwR3DAwMjDljEqCrZS0GBgbGPAhWj1Itkh+uxTEwMF7IqA4G/ufrfzjfwMDAeAnjKq58SJAPQa/xwsDA2JvRO9a6uZaMECYPWBQyXAwMjE0Z1QRuMpKch/LbgIuBgbEdo1cnVhttPXBvwImBgbEfYxIEewVtdUhQKGIxMDCOYUzGBvOWXHMPBgbGpoxqwpc0y5Jm3GQ4+svdMDAwDmAkx6028Xs/Sq89h4GBcQ4jLyAnSV5+pTCQwMDAOIaRjySfKn0T2AP/GxgYGFsw8tZ/NShP0sr8nhgYGCcwekEzb5PNi9gP34WBgXEAI2/652GxevT8/rczWAwMjK0Z1aI0TxPz8rg3vPzwv4GBgbEFIyk1JyG1lxpOHsLAwMDYjzFJ2tZX5o25JMhiYGCczMgbXgkmT/iqGAwMjBMY1aPk+6tpX/690X4MDIyNGFdxTR78ioaR8f5CaoiBgfFyxrOBNW/JJQ2+5OgYGBjnMOalbB6m19eTIWU008DAwNiUUW2Q5YfrNdfKZTYGBgZGHIITUh5SC+08DAwMjLhYTQaQvanFh5IYAwPjAEZexE5ab70xQxSsMTAwtmZUS8dekvdA8td6OAMDA+PljG/rLsxSlUquYQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了😥!';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '咦!回来啦😋!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

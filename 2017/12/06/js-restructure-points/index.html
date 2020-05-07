@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+
+    
+<!-- Tencent Speed -->
+<script>var _speedMark = new Date()</script>
+<!-- End Tencent Speed -->
+<!-- Tencent Analysis -->
+<script async src="//tajs.qq.com/stats?sId=66539672"></script>
+<!-- End Tencent Analysis -->
+
+
+    
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?71d34fe208bc96e33a9d60adabaf9dcb"></script>
+<!-- End Baidu Tongji -->
+
+
+
+<!-- Baidu Site Verification-->
+<meta name="baidu-site-verification" content="PAq6P6Yule">
+<!-- End Baidu Site Verification-->
+
+
+
+
+    <meta charset="utf-8">
+    
+    
+    <link rel="canonical" href="https://xyue.me/2017/12/06/js-restructure-points/">
+    
+    
+    <title>js 代码重构细节 | XYue&#39;s Notes | Keep Going</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="javascript,重构">
+    <meta name="description" content="重构（名词）：对软件内部结构的一种调整，目的是在不改变软件可观察行为的前提下，提高其可理解性，降低其修改成本。  伴随软件的迭代，功能的日益复杂，由于没有理解原来程序的结构和考虑代码的">
+<meta name="keywords" content="javascript,重构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js 代码重构细节">
+<meta property="og:url" content="http://xyue.me/2017/12/06/js-restructure-points/index.html">
+<meta property="og:site_name" content="XYue&#39;s Notes">
+<meta property="og:description" content="重构（名词）：对软件内部结构的一种调整，目的是在不改变软件可观察行为的前提下，提高其可理解性，降低其修改成本。  伴随软件的迭代，功能的日益复杂，由于没有理解原来程序的结构和考虑代码的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://xyue.me/2017/12/06/js-restructure-points/header-img.jpg">
+<meta property="og:updated_time" content="2020-01-20T03:49:52.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js 代码重构细节">
+<meta name="twitter:description" content="重构（名词）：对软件内部结构的一种调整，目的是在不改变软件可观察行为的前提下，提高其可理解性，降低其修改成本。  伴随软件的迭代，功能的日益复杂，由于没有理解原来程序的结构和考虑代码的">
+<meta name="twitter:image" content="http://xyue.me/2017/12/06/js-restructure-points/header-img.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="XYue&#39;s Notes" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">歆月</h5>
+          <a href="mailto:fuzy450@foxmail.com" title="fuzy450@foxmail.com" class="mail">fuzy450@foxmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://wpa.qq.com/msgrd?v=3&uin=450805067&site=qq&menu=yes" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/fuzhongyi" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://leetcode.xyue.me" target="_blank" >
+                <i class="icon icon-lg icon-code"></i>
+                LeetCode
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">js 代码重构细节</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">js 代码重构细节</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-12-06T07:30:41.000Z" itemprop="datePublished" class="page-time">
+  2017-12-06
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/读书笔记/">读书笔记</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为何重构"><span class="post-toc-number">1.</span> <span class="post-toc-text">为何重构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#何时重构"><span class="post-toc-number">2.</span> <span class="post-toc-text">何时重构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#重构细节"><span class="post-toc-number">3.</span> <span class="post-toc-text">重构细节</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#提炼函数"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">提炼函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#合并重复的条件片段"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">合并重复的条件片段</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#把条件分支语句提炼成函数"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">把条件分支语句提炼成函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#合理使用循环"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">合理使用循环</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#提前让函数退出代替嵌套条件分支"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">提前让函数退出代替嵌套条件分支</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#传递对象参数代替过长的参数列表"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">传递对象参数代替过长的参数列表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#尽量减少参数数量"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">尽量减少参数数量</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#少用三目运算符"><span class="post-toc-number">3.8.</span> <span class="post-toc-text">少用三目运算符</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#合理使用链式调用"><span class="post-toc-number">3.9.</span> <span class="post-toc-text">合理使用链式调用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#分解大型类"><span class="post-toc-number">3.10.</span> <span class="post-toc-text">分解大型类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#用-return-退出多重循环"><span class="post-toc-number">3.11.</span> <span class="post-toc-text">用 return 退出多重循环</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#References"><span class="post-toc-number">4.</span> <span class="post-toc-text">References</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-js-restructure-points"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">js 代码重构细节</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-12-06 15:30:41" datetime="2017-12-06T07:30:41.000Z"  itemprop="datePublished">2017-12-06</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/读书笔记/">读书笔记</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2017/12/06/js-restructure-points/header-img.jpg" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<blockquote>
+<p>重构（名词）：对软件内部结构的一种调整，目的是在不改变软件可观察行为的前提下，提高其可理解性，降低其修改成本。</p>
+</blockquote>
+<p>伴随软件的迭代，功能的日益复杂，由于没有理解原来程序的结构和考虑代码的扩展性，程序慢慢的失去了原来的结构，之前的设计变得面目全非。如果不进行重构，程序就会越来越难以维护。</p>
+<h2 id="为何重构"><a href="#为何重构" class="headerlink" title="为何重构"></a>为何重构</h2><ol>
+<li>改进软件设计 <em>—— 原来的设计没考虑到一些未知的情况，导致其后加入的功能破坏原有设计</em></li>
+<li>使软件更容易理解</li>
+<li>帮助找到bug <em>—— 重构可以增加对代码的理解，从而更容易</em></li>
+<li>提高编程速度 <em>—— 重构虽然花费时间，但重构可以改善程序的设计，使添加新特性更容易</em></li>
+</ol>
+<h2 id="何时重构"><a href="#何时重构" class="headerlink" title="何时重构"></a>何时重构</h2><p>重构应该随时进行，当加入新功能时不是特别容易时，可以通过重构使添加新特性更容易，修补错误时更容易发现Bug，复审代码也是重构的好时机。</p>
+<h2 id="重构细节"><a href="#重构细节" class="headerlink" title="重构细节"></a>重构细节</h2><p>在实际的项目重构有一些常见而容易忽略的细节，这些细节也是帮助我们达到重构目标的重要手段。有一部分思想来自 <strong>Martin Fowler</strong> 的名著 <a href="http://p02hf9fn0.bkt.clouddn.com/重构：改善既有代码的设计.pdf" target="_blank" rel="noopener">《重构：改善既有代码的设计》</a>，虽然该书是使用 <code>Java</code> 语言写成的，但这些重构的技巧，有很大一部分可以为 <code>JavaScript</code> 语言所借鉴。</p>
+<h3 id="提炼函数"><a href="#提炼函数" class="headerlink" title="提炼函数"></a>提炼函数</h3><p>如果在函数中有一段代码可以被独立出来，那我们最好把这些代码放进另外一个独立的函数中。这是一种很常见的优化工作，这样做的好处主要有以下几点。</p>
+<ul>
+<li>避免出现超大函数</li>
+<li>独立出来的函数有助于代码复用</li>
+<li>独立出来的函数更容易被覆写</li>
+<li>独立出来的函数如果拥有一个良好的命名，它本身就起到了注释的作用</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> getUserInfo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    ajax(<span class="string">'http:// xxx.com/userInfo'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'userId: '</span> + data.userId);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'userName: '</span> + data.userName);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'nickName: '</span> + data.nickName);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>更改为↓</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> getUserInfo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    ajax(<span class="string">'http:// xxx.com/userInfo'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">        printDetails(data);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> printDetails = <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'userId: '</span> + data.userId);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'userName: '</span> + data.userName);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'nickName: '</span> + data.nickName);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="合并重复的条件片段"><a href="#合并重复的条件片段" class="headerlink" title="合并重复的条件片段"></a>合并重复的条件片段</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> paging = <span class="function"><span class="keyword">function</span> (<span class="params">currPage</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (currPage &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        currPage = <span class="number">0</span>;</span><br><span class="line">        jump(currPage); <span class="comment">// 跳转</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (currPage &gt;= totalPage) &#123;</span><br><span class="line">        currPage = totalPage;</span><br><span class="line">        jump(currPage); <span class="comment">// 跳转</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        jump(currPage); <span class="comment">// 跳转</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>更改为↓</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> paging = <span class="function"><span class="keyword">function</span> (<span class="params">currPage</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (currPage &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        currPage = <span class="number">0</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (currPage &gt;= totalPage) &#123;</span><br><span class="line">        currPage = totalPage;</span><br><span class="line">    &#125;</span><br><span class="line">    jump(currPage); <span class="comment">// 把 jump 函数独立出来</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="把条件分支语句提炼成函数"><a href="#把条件分支语句提炼成函数" class="headerlink" title="把条件分支语句提炼成函数"></a>把条件分支语句提炼成函数</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> getPrice = <span class="function"><span class="keyword">function</span> (<span class="params">price</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">    <span class="keyword">if</span> (date.getMonth() &gt;= <span class="number">6</span> &amp;&amp; date.getMonth() &lt;= <span class="number">9</span>) &#123; <span class="comment">// 夏天</span></span><br><span class="line">        <span class="keyword">return</span> price * <span class="number">0.8</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> price;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>更改为↓</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isSummer = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">    <span class="keyword">return</span> date.getMonth() &gt;= <span class="number">6</span> &amp;&amp; date.getMonth() &lt;= <span class="number">9</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> getPrice = <span class="function"><span class="keyword">function</span> (<span class="params">price</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isSummer()) &#123; <span class="comment">// 夏天</span></span><br><span class="line">        <span class="keyword">return</span> price * <span class="number">0.8</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> price;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="合理使用循环"><a href="#合理使用循环" class="headerlink" title="合理使用循环"></a>合理使用循环</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> createXHR = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> xhr;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        xhr = <span class="keyword">new</span> ActiveXObject(<span class="string">'MSXML2.XMLHttp.6.0'</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            xhr = <span class="keyword">new</span> ActiveXObject(<span class="string">'MSXML2.XMLHttp.3.0'</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">            xhr = <span class="keyword">new</span> ActiveXObject(<span class="string">'MSXML2.XMLHttp'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> xhr;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>更改为↓</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> createXHR = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> versions = [<span class="string">'MSXML2.XMLHttp.6.0ddd'</span>, <span class="string">'MSXML2.XMLHttp.3.0'</span>, <span class="string">'MSXML2.XMLHttp'</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, version; version = versions[i++];) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ActiveXObject(version);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="提前让函数退出代替嵌套条件分支"><a href="#提前让函数退出代替嵌套条件分支" class="headerlink" title="提前让函数退出代替嵌套条件分支"></a>提前让函数退出代替嵌套条件分支</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> del = <span class="function"><span class="keyword">function</span> (<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> ret;</span><br><span class="line">    <span class="keyword">if</span> (!obj.isReadOnly) &#123; <span class="comment">// 不为只读的才能被删除</span></span><br><span class="line">        <span class="keyword">if</span> (obj.isFolder) &#123; <span class="comment">// 如果是文件夹</span></span><br><span class="line">            ret = deleteFolder(obj);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (obj.isFile) &#123; <span class="comment">// 如果是文件</span></span><br><span class="line">            ret = deleteFile(obj);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>更改为↓</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> del = <span class="function"><span class="keyword">function</span> (<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (obj.isReadOnly) &#123; <span class="comment">// 反转 if 表达式</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (obj.isFolder) &#123;</span><br><span class="line">        <span class="keyword">return</span> deleteFolder(obj);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (obj.isFile) &#123;</span><br><span class="line">        <span class="keyword">return</span> deleteFile(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="传递对象参数代替过长的参数列表"><a href="#传递对象参数代替过长的参数列表" class="headerlink" title="传递对象参数代替过长的参数列表"></a>传递对象参数代替过长的参数列表</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> setUserInfo = <span class="function"><span class="keyword">function</span> (<span class="params">id, name, address, sex, mobile, qq</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'id= '</span> + id);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'name= '</span> + name);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'address= '</span> + address);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'sex= '</span> + sex);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'mobile= '</span> + mobile);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'qq= '</span> + qq);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>更改为↓</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> setUserInfo = <span class="function"><span class="keyword">function</span> (<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'id= '</span> + obj.id);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'name= '</span> + obj.name);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'address= '</span> + obj.address);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'sex= '</span> + obj.sex);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'mobile= '</span> + obj.mobile);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'qq= '</span> + obj.qq);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="尽量减少参数数量"><a href="#尽量减少参数数量" class="headerlink" title="尽量减少参数数量"></a>尽量减少参数数量</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> draw = <span class="function"><span class="keyword">function</span> (<span class="params">width, height, square</span>) </span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>更改为↓</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> draw = <span class="function"><span class="keyword">function</span> (<span class="params">width, height</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> square = width * height;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="少用三目运算符"><a href="#少用三目运算符" class="headerlink" title="少用三目运算符"></a>少用三目运算符</h3><p>如果条件分支逻辑简单且清晰，这无碍我们使用三目运算符：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> global = <span class="keyword">typeof</span> <span class="built_in">window</span> !== <span class="string">"undefined"</span> ? <span class="built_in">window</span> : <span class="keyword">this</span>;</span><br></pre></td></tr></table></figure></p>
+<p>但如果条件分支逻辑非常复杂，如下段代码所示，那我们最好的选择还是按部就班地编写 <code>if</code>、 <code>else</code>。 <code>if</code>、 <code>else</code> 语句的好处很多，一是阅读相对容易，二是修改的时候比修改三目运算符周围的代码更加方便</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( !aup || !bup ) &#123;   <span class="comment">// 头痛吧</span></span><br><span class="line">    <span class="keyword">return</span> a === doc ? <span class="number">-1</span> :</span><br><span class="line">        b === doc ? <span class="number">1</span> :</span><br><span class="line">        aup ? <span class="number">-1</span> :</span><br><span class="line">        bup ? <span class="number">1</span> :</span><br><span class="line">        sortInput ?</span><br><span class="line">        ( indexOf.call( sortInput, a ) - indexOf.call( sortInput, b ) ) :</span><br><span class="line">        <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="合理使用链式调用"><a href="#合理使用链式调用" class="headerlink" title="合理使用链式调用"></a>合理使用链式调用</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> User = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.id = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">this</span>.name = <span class="literal">null</span>;</span><br><span class="line">&#125;;</span><br><span class="line">User.prototype.setId = <span class="function"><span class="keyword">function</span> (<span class="params">id</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.id = id;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;;</span><br><span class="line">User.prototype.setName = <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> User().setId(<span class="number">1314</span>).setName(<span class="string">'sven'</span>));</span><br></pre></td></tr></table></figure>
+<p>或则↓</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> User = &#123;</span><br><span class="line">    id: <span class="literal">null</span>,</span><br><span class="line">    name: <span class="literal">null</span>,</span><br><span class="line">    setId: <span class="function"><span class="keyword">function</span> (<span class="params">id</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    setName: <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(User.setId(<span class="number">1314</span>).setName(<span class="string">'sven'</span>));</span><br></pre></td></tr></table></figure>
+<h3 id="分解大型类"><a href="#分解大型类" class="headerlink" title="分解大型类"></a>分解大型类</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Spirit = <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;;</span><br><span class="line">Spirit.prototype.attack = <span class="function"><span class="keyword">function</span> (<span class="params">type</span>) </span>&#123; <span class="comment">// 攻击</span></span><br><span class="line">    <span class="keyword">if</span> (type === <span class="string">'waveBoxing'</span>) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">': 使用波动拳'</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type === <span class="string">'whirlKick'</span>) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">': 使用旋风腿'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> spirit = <span class="keyword">new</span> Spirit(<span class="string">'RYU'</span>);</span><br><span class="line">spirit.attack(<span class="string">'waveBoxing'</span>); <span class="comment">// 输出： RYU: 使用波动拳</span></span><br><span class="line">spirit.attack(<span class="string">'whirlKick'</span>);  <span class="comment">// 输出： RYU: 使用旋风腿</span></span><br></pre></td></tr></table></figure>
+<p>更改为↓</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Attack = <span class="function"><span class="keyword">function</span> (<span class="params">spirit</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.spirit = spirit;</span><br><span class="line">&#125;;</span><br><span class="line">Attack.prototype.start = <span class="function"><span class="keyword">function</span> (<span class="params">type</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.list[type].call(<span class="keyword">this</span>);</span><br><span class="line">&#125;;</span><br><span class="line">Attack.prototype.list = &#123;</span><br><span class="line">    waveBoxing: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.spirit.name + <span class="string">': 使用波动拳'</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    whirlKick: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.spirit.name + <span class="string">': 使用旋风腿'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> Spirit = <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.attackObj = <span class="keyword">new</span> Attack(<span class="keyword">this</span>);</span><br><span class="line">&#125;;</span><br><span class="line">Spirit.prototype.attack = <span class="function"><span class="keyword">function</span> (<span class="params">type</span>) </span>&#123; <span class="comment">// 攻击</span></span><br><span class="line">    <span class="keyword">this</span>.attackObj.start(type);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> spirit = <span class="keyword">new</span> Spirit(<span class="string">'RYU'</span>);</span><br><span class="line">spirit.attack(<span class="string">'waveBoxing'</span>);  <span class="comment">// 输出： RYU: 使用波动拳</span></span><br><span class="line">spirit.attack(<span class="string">'whirlKick'</span>);   <span class="comment">// 输出： RYU: 使用旋风腿</span></span><br></pre></td></tr></table></figure>
+<h3 id="用-return-退出多重循环"><a href="#用-return-退出多重循环" class="headerlink" title="用 return 退出多重循环"></a>用 return 退出多重循环</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> func = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> flag = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i * j &gt; <span class="number">30</span>) &#123;</span><br><span class="line">                flag = <span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (flag === <span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'....'</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>更改为↓</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> func = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i * j &gt; <span class="number">30</span>) &#123; </span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'....'</span>);  <span class="comment">// for 循环后边的代码提取到 return 之前执行</span></span><br><span class="line">                <span class="keyword">return</span>;    </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a href="http://p02hf9fn0.bkt.clouddn.com/JavaScript设计模式与开发实践.pdf.pdf" target="_blank" rel="noopener">《JavaScript设计模式与开发实践》——曾探</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-01-20T03:49:52.116Z" itemprop="dateUpdated">2020-01-20 11:49:52</time>
+</span><br>
+
+
+        
+        <a href="/2017/12/06/js-restructure-points/" target="_blank" rel="external">http://xyue.me/2017/12/06/js-restructure-points/</a>
+        
+    </div>
+    <footer>
+        <a href="http://xyue.me">
+            <img src="https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" alt="歆月">
+            歆月
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/重构/">重构</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2017/12/06/js-restructure-points/&title=《js 代码重构细节》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2017/12/06/js-restructure-points/&title=《js 代码重构细节》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2017/12/06/js-restructure-points/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《js 代码重构细节》 — XYue's Notes&url=http://xyue.me/2017/12/06/js-restructure-points/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2017/12/06/js-restructure-points/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/12/08/virtual-dom/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">深度剖析：如何实现一个 Virtual DOM 算法</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/11/27/ionic-start-white-screen/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">ionic3 启动白屏解决</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+<section class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDY2MC83MjE1">
+        <script type="text/javascript">
+            (function(d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        <i class="icon icon-user"></i><span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        <i class="icon icon-eye"></i><span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>歆月 &copy; 2017 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://xyue.me/2017/12/06/js-restructure-points/&title=《js 代码重构细节》 — XYue's Notes&pic=https://avatars2.githubusercontent.com/u/26210263?v=4&s=460" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://xyue.me/2017/12/06/js-restructure-points/&title=《js 代码重构细节》 — XYue's Notes&source=🌠 瞎琢磨，乱折腾 🌠" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://xyue.me/2017/12/06/js-restructure-points/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《js 代码重构细节》 — XYue's Notes&url=http://xyue.me/2017/12/06/js-restructure-points/&via=http://xyue.me" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://xyue.me/2017/12/06/js-restructure-points/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJElEQVR42u3aUWoDMQxF0ex/01PoVyF0ct9TU4h8/VXSYPu4oNqSHg88ru8x+f7PT66n8fz54x1DhgwZH8u4bsdvmyCz3QPIEZC9yZAh4xwGn65bLJ2N702GDBkyyNQpsltXhgwZMtIrGmHMg6wMGTJkpBe7bpAwPbl0ypAh4wRGmuj/z5/fWN+QIUPGhzDeETq7q+EkrMuQIWM3gzRGkMscT8nxyMnxMmTI2M3oQif5ZgcmqwR/BxkyZCxl8IA72RA/mj+rbMiQIeNjGZOt8zT9PK0WzCBDhoylDF5KnIC7wBo8lWXIkLGUwZ+mXSC+b54gLWjoQGXIkHEMg5cY0/DaBWVyQZQhQ8YJjK7pgTxlJxstE3MyZMhYzUgT92m58Z4xKXbKkCHjBAZp3uLtFHw2EsSDw5IhQ8ZqBgl5kwX4o3dCkiFDxm4GfyjyBgteKuDNFi9gMmTIOIbRNV7wi2C5RbKiDBkyVjPKYmGYLEsbKdLmDBkyZOxmzBsmuvIAYQRXUhkyZBzA6JbvNtel3l4UNWXIkLGa0U2RXhzTZFzaNCZDhozdjCscacqsG7yBQ4YMGScw0qnnrWNdUE7/MciQIWMfgyzMKwyTByp/GAePWBkyZCxipIVMAuvKkyToB7+WIUPGYYy0Yau7FP5BIVOGDBkywKSkqMlTZqicIEOGjAMY5BHLQ226FX4QLwKuDBkyljLmhQHeeJEm2jhShgwZSxlfIFF/rfR2bbMAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了😥!';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '咦!回来啦😋!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
