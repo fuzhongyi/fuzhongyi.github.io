@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xyue.me/"/>
-  <updated>2020-04-16T11:18:05.913Z</updated>
+  <updated>2020-05-29T11:13:22.876Z</updated>
   <id>http://xyue.me/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>async/await 实现原理</title>
+    <link href="http://xyue.me/2020/05/29/async-await-realize/"/>
+    <id>http://xyue.me/2020/05/29/async-await-realize/</id>
+    <published>2020-05-29T09:56:43.000Z</published>
+    <updated>2020-05-29T11:13:22.876Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p1 = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">'Promisem 1'</span>), <span class="number">3000</span>));</span><br><span class="line"><span class="keyword">var</span> p2 = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">'Promisem 2'</span>), <span class="number">3000</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> data1 = <span class="keyword">await</span> p1();</span><br><span class="line">  <span class="built_in">console</span>.log(data1);</span><br><span class="line">  <span class="keyword">var</span> data2 = <span class="keyword">await</span> p2();</span><br><span class="line">  <span class="built_in">console</span>.log(data2);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'end'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test().then(<span class="built_in">console</span>.log);</span><br></pre></td></tr></table></figure><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p1 = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">'Promisem 1'</span>), <span class="number">3000</span>));</span><br><span class="line"><span class="keyword">var</span> p2 = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">'Promisem 2'</span>), <span class="number">3000</span>));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> data1 = <span class="keyword">yield</span> p1();</span><br><span class="line">  <span class="built_in">console</span>.log(data1);</span><br><span class="line">  <span class="keyword">var</span> data2 = <span class="keyword">yield</span> p2();</span><br><span class="line">  <span class="built_in">console</span>.log(data2);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'end'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncToGenerator</span>(<span class="params">gen</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> g = gen.apply(<span class="keyword">this</span>, <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>));</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">step</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> result = g.next(val);</span><br><span class="line">      <span class="keyword">if</span> (result.done) &#123;</span><br><span class="line">        resolve(result.value);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">Promise</span>.resolve(result.value).then(step, reject);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    step();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">asyncToGenerator(test).then(<span class="built_in">console</span>.log);</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;使用&quot;&gt;&lt;a href=&quot;#使用&quot; class=&quot;headerlink&quot; title=&quot;使用&quot;&gt;&lt;/a&gt;使用&lt;/h2&gt;&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span cla
+      
+    
+    </summary>
+    
+    
+      <category term="javascript" scheme="http://xyue.me/tags/javascript/"/>
+    
+      <category term="async" scheme="http://xyue.me/tags/async/"/>
+    
+  </entry>
   
   <entry>
     <title>一文看尽 redux，中间件设计实现</title>
@@ -288,9 +313,9 @@
       <category term="技术水波文" scheme="http://xyue.me/categories/%E6%8A%80%E6%9C%AF%E6%B0%B4%E6%B3%A2%E6%96%87/"/>
     
     
-      <category term="css" scheme="http://xyue.me/tags/css/"/>
-    
       <category term="javascript" scheme="http://xyue.me/tags/javascript/"/>
+    
+      <category term="css" scheme="http://xyue.me/tags/css/"/>
     
       <category term="html" scheme="http://xyue.me/tags/html/"/>
     
