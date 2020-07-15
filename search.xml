@@ -1,6 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>纯 CSS 实现多行省略</title>
+    <url>/2020/06/28/read-more-content/</url>
+    <content><![CDATA[<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/06/28/read-more-content/header-img.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="什么是多行省略"><a href="#什么是多行省略" class="headerlink" title="什么是多行省略"></a>什么是多行省略</h2><p>当字数达到一定程度超出限制行数就会显示省略号。</p>
+<h2 id="webkit-line-clamp"><a href="#webkit-line-clamp" class="headerlink" title="-webkit-line-clamp"></a>-webkit-line-clamp</h2><p>我们可以使用 <code>-webkit-line-clamp</code> 简单实现。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">300px</span>;</span><br><span class="line">    <span class="attribute">overflow </span>: hidden;</span><br><span class="line">    <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">    <span class="attribute">display</span>: -webkit-box;</span><br><span class="line">    <span class="attribute">-webkit-line-clamp</span>: <span class="number">2</span>;</span><br><span class="line">    <span class="attribute">-webkit-box-orient</span>: vertical;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/06/28/read-more-content/2-1.png" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>但 <code>-webkit-line-clamp</code> 是一个不规范的属性（unsupported WebKit property），它并没有出现在 <code>CSS</code> 规范草案中。因此这个方案并不完美。</p>
+<h2 id="一般方案"><a href="#一般方案" class="headerlink" title="一般方案"></a>一般方案</h2><ol>
+<li>通过脚本截取内容获取高度判断显隐查看更多</li>
+<li>换行显示，在新的一行显示查看更多</li>
+</ol>
+<h2 id="新的方案"><a href="#新的方案" class="headerlink" title="新的方案"></a>新的方案</h2><p>利用右浮动原理——右浮动元素从右到左依次排列，不够空间则换行。蓝色块、红色块、绿色块依次右浮动，蓝色块高度小于 6 行文字时，绿色块在右边，蓝色块高度大于等于 6 行文字时，左下角刚好够绿色块排列的空间，于是绿色块就到左边了。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/06/28/read-more-content/3-1.gif" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"contain"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span>内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容容内容内容内容内容内容内容内容内容内容内容内容内容内容容内容内容内容内容内容内容内容内容<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"placeholder"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"more"</span>&gt;</span>...更多<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@-webkit-keyframes</span> width-change &#123;</span><br><span class="line">  0%,</span><br><span class="line">  100% &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  50% &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">300px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.contain</span> &#123;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">animation</span>: width-change <span class="number">8s</span> ease infinite;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.content</span> &#123;</span><br><span class="line">  <span class="attribute">margin-left</span>: -<span class="number">80px</span>;</span><br><span class="line">  <span class="attribute">float</span>: right;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.placeholder</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: right;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">80px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.more</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">float</span>: right;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">80px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">translate</span>(-<span class="number">100%</span>, -<span class="number">100%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以稍作改动：</p>
+<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line">.more &#123;</span><br><span class="line">  position: relative;</span><br><span class="line">  float: right;</span><br><span class="line">  width: 80px;</span><br><span class="line">  height: 20px;</span><br><span class="line">  background: rgba(0, 255, 0, 1);</span><br><span class="line"><span class="addition">+ left: 100%;</span></span><br><span class="line"><span class="addition">+ transform: translate(-100%, -100%);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/06/28/read-more-content/3-2.gif" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>这样 <code>更多</code> 就移动到了我们预设的位置，通过文字溢出截断就达到我们最终想要的效果。</p>
+<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line">.contain &#123;</span><br><span class="line">  line-height: 20px;</span><br><span class="line">  animation: width-change 8s ease infinite;</span><br><span class="line"><span class="addition">+ max-height: 100px;</span></span><br><span class="line"><span class="addition">+ overflow: hidden;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2020/06/28/read-more-content/3-3.gif" alt title>
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<iframe height="265" style="width: 100%;" scrolling="no" title="ellipsis" src="https://codepen.io/fuzhongyi/embed/wvMEpyv?height=265&theme-id=dark&default-tab=css,result" frameborder="no" allowtransparency="true" allowfullscreen="true"><br>  See the Pen <a href="https://codepen.io/fuzhongyi/pen/wvMEpyv" target="_blank" rel="noopener">ellipsis</a> by 歆月<br>  (<a href="https://codepen.io/fuzhongyi" target="_blank" rel="noopener">@fuzhongyi</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.<br></iframe>
+]]></content>
+      <categories>
+        <category>技术水波文</category>
+      </categories>
+      <tags>
+        <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>async/await 实现原理</title>
     <url>/2020/05/29/async-await-realize/</url>
     <content><![CDATA[<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> p1 = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">'Promisem 1'</span>), <span class="number">3000</span>));</span><br><span class="line"><span class="keyword">var</span> p2 = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">'Promisem 2'</span>), <span class="number">3000</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> data1 = <span class="keyword">await</span> p1();</span><br><span class="line">  <span class="built_in">console</span>.log(data1);</span><br><span class="line">  <span class="keyword">var</span> data2 = <span class="keyword">await</span> p2();</span><br><span class="line">  <span class="built_in">console</span>.log(data2);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'end'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test().then(<span class="built_in">console</span>.log);</span><br></pre></td></tr></table></figure>
